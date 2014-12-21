@@ -1,0 +1,31 @@
+Map{
+    List<Location>
+    List<StateMachine>
+}
+ 
+Location{
+    List<View>
+}
+ 
+View{
+    Main Image
+    List<NavRectangle>
+    List<Manipulator>
+    List<Indicator>
+}
+ 
+Manipulator{
+    Link to StateMachine
+    subclasses:
+    -Button
+    -Lever / switch
+    -Slider
+}
+ 
+Indicator{
+    Mapping<state, image>
+}
+ 
+NavRectangle{
+    Link to View and Location
+}
