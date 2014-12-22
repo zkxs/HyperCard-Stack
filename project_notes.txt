@@ -1,11 +1,10 @@
 Map{
-    List<Location>
-    List<StateMachine>
-    List<PuzzleController>
+    Hashmap<String, Location>
+    List<PuzzleController> // do we have multiple puzzlecontrollers?
 }
 
 Location{
-    List<View>
+    Hashmap<String, View>
 }
 
 View{
@@ -16,7 +15,7 @@ View{
 }
 
 Manipulator{
-    Link to PuzzleController
+    Throws events to PuzzleController
     subclasses:
     -Button
     -Lever / switch
@@ -24,7 +23,7 @@ Manipulator{
 }
 
 Indicator{
-    Mapping<state, image>
+    draw(GameState)
 }
 
 NavArea{
@@ -33,14 +32,10 @@ NavArea{
     subclass: NavRectangle
 }
 
-StateMachine{
-    -bool
-    -int
-    -double
-    -string
+GameState{
+    Some sort of tree-based key/value data structure simlilar to JSON
 }
 
 PuzzleController{
-    List<StateMachine>
-    List<ManipulatorEvent>
+    onEvent(ManipulatorEvent)
 }
