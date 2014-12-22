@@ -27,9 +27,10 @@ Indicator{
     Mapping<state, image>
 }
 
-NavRectangle{
+NavArea{
     Link to View and Location
     Mouse cursor image (left, right, forward, up, down, inspect, interact)
+    subclass: NavRectangle
 }
 
 StateMachine{
