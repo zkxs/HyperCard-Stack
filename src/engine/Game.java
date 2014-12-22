@@ -21,9 +21,9 @@ public class Game {
 		glBegin(GL_QUADS);
 		{
 			glVertex2f(0f, 0f);
-			glVertex2f(0f, .5f);
-			glVertex2f(.5f, .5f);
-			glVertex2f(.5f, 0f);
+			glVertex2f(0f, 100f);
+			glVertex2f(100f, 100f);
+			glVertex2f(100f, 0f);
 			
 		}
 		glEnd();

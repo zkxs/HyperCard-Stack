@@ -105,11 +105,15 @@ public class GameEngine {
  
         // Set the clear color
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
- 
+        glMatrixMode(GL_PROJECTION);
+        glLoadIdentity();
+        glOrtho(0, WINDOW_WIDTH, 0, WINDOW_HEIGHT, 0, 1);
         // Run the rendering loop until the user has attempted to close
         // the window or has pressed the ESCAPE key.
         while ( glfwWindowShouldClose(window) == GL_FALSE ) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
+            glMatrixMode(GL_MODELVIEW);
+            glLoadIdentity();
             
             game.update();
             game.draw();
