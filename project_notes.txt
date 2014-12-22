@@ -1,6 +1,6 @@
 Map{
     Hashmap<String, Location>
-    List<PuzzleController> // do we have multiple puzzlecontrollers?
+    Hashmap<String, PuzzleController> // do we have multiple puzzlecontrollers?
 }
 
 Location{
@@ -9,13 +9,13 @@ Location{
 
 View{
     Main Image
-    List<NavRectangle>
+    List<NavArea>
     List<Manipulator>
     List<Indicator>
 }
 
 Manipulator{
-    Throws events to PuzzleController
+    Throws PuzzleEvents to PuzzleController
     subclasses:
     -Button
     -Lever / switch
@@ -37,5 +37,6 @@ GameState{
 }
 
 PuzzleController{
-    onEvent(ManipulatorEvent)
+	// can throw PuzzleEvents to other PuzzleControllers if need be
+    onEvent(PuzzleEvent) // change the game state in some way
 }
