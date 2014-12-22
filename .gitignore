@@ -1,6 +1,7 @@
 .svn/**/*
 .svn
 .svn/*
+.classpath
 build/
 dist/
 bin/
