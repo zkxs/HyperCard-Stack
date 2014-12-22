@@ -1,31 +1,45 @@
 Map{
     List<Location>
     List<StateMachine>
+    List<PuzzleController>
 }
- 
+
 Location{
     List<View>
 }
- 
+
 View{
     Main Image
     List<NavRectangle>
     List<Manipulator>
     List<Indicator>
 }
- 
+
 Manipulator{
-    Link to StateMachine
+    Link to PuzzleController
     subclasses:
     -Button
     -Lever / switch
     -Slider
 }
- 
+
 Indicator{
     Mapping<state, image>
 }
- 
+
 NavRectangle{
     Link to View and Location
+    Mouse cursor image (left, right, forward, up, down, inspect, interact)
+}
+
+StateMachine{
+    -bool
+    -int
+    -double
+    -string
+}
+
+PuzzleController{
+    List<StateMachine>
+    List<ManipulatorEvent>
 }
