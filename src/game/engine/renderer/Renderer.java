@@ -7,19 +7,20 @@ import game.engine.Game;
  */
 public interface Renderer
 {	
-	// drawImage
-	// drawRect
-	// etc
-	
 	/**
 	 * Initialize the renderer.
 	 */
 	public void init();
 	
-	
+	/**
+	 * Calls game.draw() in a loop
+	 * @param game
+	 */
 	public void updateLoop(Game game);
 	
-	
+	/**
+	 * Shuts down the renderer and closes the window
+	 */
 	public void destroy();
 	
 	/**
