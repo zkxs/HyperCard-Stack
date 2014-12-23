@@ -107,7 +107,7 @@ public class GameEngine {
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
-        glOrtho(0, WINDOW_WIDTH, 0, WINDOW_HEIGHT, 0, 1);
+        glOrtho(0, WINDOW_WIDTH, WINDOW_HEIGHT, 0, 0, 1);
         // Run the rendering loop until the user has attempted to close
         // the window or has pressed the ESCAPE key.
         while ( glfwWindowShouldClose(window) == GL_FALSE ) {
