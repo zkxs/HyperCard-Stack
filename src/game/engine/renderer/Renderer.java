@@ -10,13 +10,13 @@ public interface Renderer
 	/**
 	 * Initialize the renderer.
 	 */
-	public void init();
+	public void init(Game game);
 	
 	/**
 	 * Calls game.draw() in a loop
 	 * @param game
 	 */
-	public void updateLoop(Game game);
+	public void updateLoop();
 	
 	/**
 	 * Shuts down the renderer and closes the window
