@@ -13,16 +13,14 @@ Possible formats:
 			folder: "Global"
 				contains resources used globally (sounds, etc)
 				
-Willscript
-	definitely a real thing we discussed
+MapScript
 	it would be a way to script the behavior of puzzles
 		example: pulling "watchTowerLever01" could change the game state variable "dockingPlatform01Extended" from false to true
 		
-Metadata markup language
-	json/xml/MichaelMarkupLanguage
+Metadata markup language (json/xml)
 	definitions:
 		location:
-			position
+			position (x, y, z)
 			list of views
 		view:
 			orientation (theta, phi)
