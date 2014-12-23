@@ -13,7 +13,7 @@ Possible formats:
 			folder: "Global"
 				contains resources used globally (sounds, etc)
 				
-MapScript
+PuzzleScript
 	it would be a way to script the behavior of puzzles
 		example: pulling "watchTowerLever01" could change the game state variable "dockingPlatform01Extended" from false to true
 		
