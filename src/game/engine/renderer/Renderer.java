@@ -1,5 +1,7 @@
 package game.engine.renderer;
 
+import game.engine.Game;
+
 /**
  * Defines methods used for rendering
  */
@@ -8,6 +10,17 @@ public interface Renderer
 	// drawImage
 	// drawRect
 	// etc
+	
+	/**
+	 * Initialize the renderer.
+	 */
+	public void init();
+	
+	
+	public void updateLoop(Game game);
+	
+	
+	public void destroy();
 	
 	/**
 	 * Set the drawing color
