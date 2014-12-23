@@ -1,14 +1,19 @@
 Possible formats:
 	B-tree?
 	Zip file
-		metadata file describing level as well as where resources are located in the zip file
-			json/xml/something custom?
 		directory structure for resources
-			a folder per location?
-				contains resources (views/animations/sound?)
-				contains additonal metadata for that specific location?
+			metadata file describing level as well as where resources are located in the zip file
+			folder: "Locations"
+				folder per location, named with the locations unique identifier
+					metadata for that specific location
+					contains location specific resources (views/animations/sounds)
+			folder: "Global"
+				contains resources used globally (sounds, etc)
 				
 Willscript
 	definitely a real thing we discussed
 	it would be a way to script the behavior of puzzles
 		example: pulling "watchTowerLever01" could change the game state variable "dockingPlatform01Extended" from false to true
+		
+Metadata markup language
+	json/xml/MichaelMarkupLanguage
