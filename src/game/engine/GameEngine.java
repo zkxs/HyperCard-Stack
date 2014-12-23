@@ -16,7 +16,7 @@ public class GameEngine {
 		renderer = new OpenGLRenderer();
 		renderer.init();
 		 
-		game = new Game(renderer);
+		game = new Game();
         game.init();
 	}
 	

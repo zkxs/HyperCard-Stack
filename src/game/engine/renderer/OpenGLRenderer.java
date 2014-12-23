@@ -98,7 +98,7 @@ public class OpenGLRenderer implements Renderer
             glLoadIdentity();
             
             game.update();
-            game.draw();
+            game.draw(this);
  
             glfwSwapBuffers(window); // swap the color buffers
             // Poll for window events. The key callback above will only be
