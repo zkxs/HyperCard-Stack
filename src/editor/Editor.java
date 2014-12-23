@@ -1,5 +1,5 @@
 package editor;
-import gameelements.Map;
+import common.gameelements.Map;
 
 public class Editor {
 	private Map map;

@@ -1,6 +1,6 @@
-package engine;
+package game.engine;
 
-import engine.renderer.*;
+import game.engine.renderer.*;
 
 
 public class Game {

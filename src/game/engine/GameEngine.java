@@ -1,4 +1,4 @@
-package engine;
+package game.engine;
 
 import org.lwjgl.Sys;
 import org.lwjgl.glfw.*;

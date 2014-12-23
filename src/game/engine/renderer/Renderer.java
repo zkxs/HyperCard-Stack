@@ -1,4 +1,4 @@
-package engine.renderer;
+package game.engine.renderer;
 
 /**
  * Defines methods used for rendering
