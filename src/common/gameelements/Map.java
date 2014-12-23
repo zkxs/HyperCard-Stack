@@ -1,5 +1,6 @@
 package common.gameelements;
 
-public class Map {
-
+public class Map
+{
+	
 }
