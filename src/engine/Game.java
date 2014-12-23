@@ -1,15 +1,19 @@
 package engine;
 
 import static org.lwjgl.opengl.GL11.*;
+import engine.renderer.*;
 
 
 public class Game {
-	public Game(){
+	
+	Renderer renderer;
+	
+	public Game() {
 		
 	}
 	
 	public void init(){
-		
+		renderer = new OpenGLRenderer();
 	}
 	
 	public void update(){
@@ -17,15 +21,7 @@ public class Game {
 	}
 	
 	public void draw(){
-		glColor3f(.5f, .5f, .5f);
-		glBegin(GL_QUADS);
-		{
-			glVertex2f(0f, 0f);
-			glVertex2f(0f, 100f);
-			glVertex2f(100f, 100f);
-			glVertex2f(100f, 0f);
-			
-		}
-		glEnd();
+		renderer.setColor(.5f, .5f, .5f);
+		renderer.fillRect(10f, 10f, 100f, 100f);
 	}
 }
