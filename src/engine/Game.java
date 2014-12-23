@@ -1,6 +1,5 @@
 package engine;
 
-import static org.lwjgl.opengl.GL11.*;
 import engine.renderer.*;
 
 
