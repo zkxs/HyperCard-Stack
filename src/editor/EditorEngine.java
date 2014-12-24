@@ -65,7 +65,6 @@ public class EditorEngine extends JFrame implements GLEventListener{
     	splitPane.setDividerLocation(GL_WIDTH);
     	splitPane.setEnabled(false);
     	
-    	
     	addWindowListener( new WindowAdapter() {
 			public void windowClosing( WindowEvent windowevent ) {
 				remove( gljpanel );
@@ -98,7 +97,6 @@ public class EditorEngine extends JFrame implements GLEventListener{
 	@Override
 	public void display(GLAutoDrawable glautodrawable) {
 		editor.update();
-		
 		if(!picking){
 			gl.glMatrixMode(GL2.GL_PROJECTION);
 			gl.glLoadIdentity();
@@ -125,6 +123,10 @@ public class EditorEngine extends JFrame implements GLEventListener{
 	@Override
 	public void reshape(GLAutoDrawable glautodrawable, int x, int y, int width, int height) {
 		splitPane.setDividerLocation(getWidth() - ToolsPalette.PALETTE_WIDTH);
+		
+		double AR = (float)GL_WIDTH / WINDOW_HEIGHT;
+		if (AR*height<width) gl.glViewport(x, y, (int) (AR*height), height);
+		else gl.glViewport(x, y, width, (int) (width/AR));
 	}
 	
 	public void setColor(float red, float green, float blue)
