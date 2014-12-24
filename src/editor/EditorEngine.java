@@ -102,7 +102,7 @@ public class EditorEngine extends JFrame implements GLEventListener{
 		if(!picking){
 			gl.glMatrixMode(GL2.GL_PROJECTION);
 			gl.glLoadIdentity();
-			gl.glOrtho(0, GL_WIDTH, WINDOW_HEIGHT, 0, 0, 1);
+			gl.glOrtho(0, GL_WIDTH, 0, WINDOW_HEIGHT, 0, 1);
 			gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT); // clear the framebuffer
 			gl.glMatrixMode(GL2.GL_MODELVIEW);
 			gl.glLoadIdentity();
@@ -145,20 +145,51 @@ public class EditorEngine extends JFrame implements GLEventListener{
 		gl.glEnd();
 	}
 	
-	public void drawLocation(float x, float y){
+	/**
+	 * draw a circle representing a location at the coordinates specified
+	 * @param x x coordinate of the location
+	 * @param y y coordinate of the location
+	 * @param z z coordinate of the location
+	 */
+	public void drawLocation(float x, float y, float z){
 		float radius = 5f;
 		float diag = 3.5f;
 		gl.glBegin(GL2.GL_LINE_LOOP);
 		{
-			gl.glVertex2f(x, y + radius);
-			gl.glVertex2f(x + diag, y + diag);
-			gl.glVertex2f(x + radius, y);
-			gl.glVertex2f(x + diag, y - diag);
-			gl.glVertex2f(x, y - radius);
-			gl.glVertex2f(x - diag, y - diag);
-			gl.glVertex2f(x - radius, y);
-			gl.glVertex2f(x - diag, y + diag );
+			gl.glVertex3f(x, y + radius, z);
+			gl.glVertex3f(x + diag, y + diag, z);
+			gl.glVertex3f(x + radius, y, z);
+			gl.glVertex3f(x + diag, y - diag, z);
+			gl.glVertex3f(x, y - radius, z);
+			gl.glVertex3f(x - diag, y - diag, z);
+			gl.glVertex3f(x - radius, y, z);
+			gl.glVertex3f(x - diag, y + diag, z);
 		}
 		gl.glEnd();
+	}
+	
+	/**
+	 * draw a line representing a view at a location pointing in a direction
+	 * @param locationx x coordinate of the view's location
+	 * @param locationy y coordinate of the view's location
+	 * @param locationz z coordinate of the view's location
+	 * @param theta angle theta of the view in degrees
+	 * @param phi angle phi of the view in degrees
+	 */
+	public void drawView(float locationx, float locationy, float locationz, float theta, float phi){
+		float radius = 10f;
+		float half_width = 8f;
+		
+		//proof that Will knows OpenGL
+		gl.glTranslatef(locationx, locationy, locationz);
+		gl.glRotatef(-theta, 0, 0, 1);
+		gl.glBegin(GL2.GL_LINES);
+		{
+			gl.glVertex3f(-half_width, radius, locationz);
+			gl.glVertex3f(half_width, radius, locationz);
+		}
+		gl.glEnd();
+		gl.glRotatef(theta, 0, 0, 1);
+		gl.glTranslatef(-locationx, -locationy, -locationz);
 	}
 }
