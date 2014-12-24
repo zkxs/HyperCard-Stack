@@ -7,33 +7,44 @@ import common.gameelements.Map;
 public class Editor {
 	private ToolsPalette toolsPalette;
 	private Map map;
-	private enum Selection{
-		none,
-		location,
-		view
+	private enum Selection {
+		NONE,
+		LOCATION,
+		VIEW
+	}
+	
+	private enum EditMode {
+		EDIT_MAP, //editing locations and views
+		EDIT_VIEW //editing navAreas and manipulators
 	}
 	
 	private Selection selection;
+	private EditMode editMode;
 	
 	public Editor(){
 	}
 	
 	public void init(ToolsPalette tools){
 		toolsPalette = tools;
-		selection = Selection.none;
+		selection = Selection.NONE;
 	}
 	
 	public void update(){
+		if(editMode == EditMode.EDIT_MAP){
 		switch(selection){
-		case none:
+		case NONE:
 			toolsPalette.setNothingSelected();
 			break;
-		case location:
+		case LOCATION:
 			toolsPalette.setLocationSelected();
 			break;
-		case view:
+		case VIEW:
 			toolsPalette.setViewSelected();
 			break;
+		}
+		}
+		else{ //edit mode == edit_view
+			
 		}
 	}
 	
