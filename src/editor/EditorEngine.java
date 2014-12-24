@@ -3,6 +3,8 @@ package editor;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.nio.IntBuffer;
@@ -23,7 +25,7 @@ import com.jogamp.opengl.util.GLBuffers;
 
 
 @SuppressWarnings("serial")
-public class EditorEngine extends JFrame implements GLEventListener, MouseListener, MouseMotionListener{
+public class EditorEngine extends JFrame implements GLEventListener, MouseListener, MouseMotionListener, MouseWheelListener{
 	public static final int WINDOW_WIDTH = 1280;
 	public static final int WINDOW_HEIGHT = 720;
 	public static final String WINDOW_TITLE = "HyperCard Stack Editor";
@@ -45,6 +47,8 @@ public class EditorEngine extends JFrame implements GLEventListener, MouseListen
 	int mouseX, mouseY;
     int oldXOffset, oldYOffset;
     int xOffset, yOffset;
+    
+    int zoom = 1;
 
 	public static void main(String[] args) {
 		new EditorEngine();
@@ -78,6 +82,7 @@ public class EditorEngine extends JFrame implements GLEventListener, MouseListen
     	
     	gljpanel.addMouseListener(this);
     	gljpanel.addMouseMotionListener(this);
+    	gljpanel.addMouseWheelListener(this);
     	
     	addWindowListener( new WindowAdapter() {
 			public void windowClosing( WindowEvent windowevent ) {
@@ -114,12 +119,12 @@ public class EditorEngine extends JFrame implements GLEventListener, MouseListen
 		if(!picking){
 			gl.glMatrixMode(GL2.GL_PROJECTION);
 			gl.glLoadIdentity();
-			gl.glOrtho(0, GL_WIDTH, 0, WINDOW_HEIGHT, 0, 1);
+			gl.glOrtho(0, GL_WIDTH / zoom, 0, WINDOW_HEIGHT / zoom, 0, 1);
 			gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT); // clear the framebuffer
 			gl.glMatrixMode(GL2.GL_MODELVIEW);
 			gl.glLoadIdentity();
 			
-			gl.glTranslatef(xOffset, -yOffset, 0); //pan the camera
+			gl.glTranslatef(xOffset / zoom, -yOffset / zoom, 0); //pan the camera
 			editor.draw(this, gl);
 		}
 		else{
@@ -273,6 +278,10 @@ public class EditorEngine extends JFrame implements GLEventListener, MouseListen
 			mouseX = e.getX();
 			mouseY = e.getY();
 		}
+		else if(e.getButton() == MouseEvent.BUTTON2){ // reset pan to origin
+			xOffset = 0;
+			yOffset = 0;
+		}
 	}
 	
 	@Override
@@ -294,4 +303,15 @@ public class EditorEngine extends JFrame implements GLEventListener, MouseListen
 
 	@Override
 	public void mouseExited(MouseEvent e) {}
+
+	@Override
+	public void mouseWheelMoved(MouseWheelEvent e) {
+		if(e.getWheelRotation() < 0 && zoom < 4){
+			zoom += zoom;
+		}
+		else if(e.getWheelRotation() > 0){
+			zoom -= zoom / 2;
+		}
+		System.out.println(zoom);
+	}
 }
