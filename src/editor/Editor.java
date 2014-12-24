@@ -27,6 +27,7 @@ public class Editor {
 	public void init(ToolsPalette tools){
 		toolsPalette = tools;
 		selection = Selection.NONE;
+		editMode = EditMode.EDIT_MAP;
 	}
 	
 	public void update(){
