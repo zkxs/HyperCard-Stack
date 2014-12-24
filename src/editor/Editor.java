@@ -5,17 +5,36 @@ import javax.media.opengl.GL2;
 import common.gameelements.Map;
 
 public class Editor {
+	private ToolsPalette toolsPalette;
 	private Map map;
+	private enum Selection{
+		none,
+		location,
+		view
+	}
+	
+	private Selection selection;
 	
 	public Editor(){
 	}
 	
-	public void init(){
-		
+	public void init(ToolsPalette tools){
+		toolsPalette = tools;
+		selection = Selection.none;
 	}
 	
 	public void update(){
-		
+		switch(selection){
+		case none:
+			toolsPalette.setNothingSelected();
+			break;
+		case location:
+			toolsPalette.setLocationSelected();
+			break;
+		case view:
+			toolsPalette.setViewSelected();
+			break;
+		}
 	}
 	
 	public void draw(EditorEngine e, GL2 gl){
@@ -36,6 +55,10 @@ public class Editor {
 	}
 	
 	public void destroy(){
+		
+	}
+	
+	public void createLocation(){
 		
 	}
 }

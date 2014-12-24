@@ -1,10 +1,7 @@
 package editor;
 
-import game.engine.Game;
-
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-
 import javax.media.opengl.GL2;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLCapabilities;
@@ -13,14 +10,18 @@ import javax.media.opengl.GLProfile;
 import javax.media.opengl.awt.GLJPanel;
 import javax.media.opengl.glu.GLU;
 import javax.swing.JFrame;
+import javax.swing.JSplitPane;
 
 import com.jogamp.opengl.util.FPSAnimator;
 
 
+@SuppressWarnings("serial")
 public class EditorEngine extends JFrame implements GLEventListener{
 	public static final int WINDOW_WIDTH = 1280;
 	public static final int WINDOW_HEIGHT = 720;
 	public static final String WINDOW_TITLE = "HyperCard Stack Editor";
+	
+	public static final int GL_WIDTH = 1100;
 
 	private GLJPanel gljpanel;
 	private GLProfile glprofile;
@@ -29,6 +30,7 @@ public class EditorEngine extends JFrame implements GLEventListener{
 	private GLU glu;
 	private FPSAnimator fpsanimator;
 	private Editor editor;
+	private ToolsPalette toolsPalette;
 
 	public static void main(String[] args) {
 		new EditorEngine();
@@ -42,14 +44,26 @@ public class EditorEngine extends JFrame implements GLEventListener{
     
     public void init()
     {
+    	JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+    	getContentPane().add(splitPane);
     	editor = new Editor();
+    	
+    	toolsPalette = new ToolsPalette(editor);
+    	editor.init(toolsPalette);
+    	
     	glprofile = GLProfile.getDefault();
     	glcapabilities = new GLCapabilities(glprofile);
     	gljpanel = new GLJPanel(glcapabilities);
     	fpsanimator = new FPSAnimator(gljpanel, 60);
-//    	gljpanel.setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
     	gljpanel.addGLEventListener(this);
-    	add(gljpanel);
+    	
+    	splitPane.setLeftComponent(gljpanel);
+    	splitPane.setRightComponent(toolsPalette);
+    	
+    	splitPane.setDividerLocation(GL_WIDTH);
+    	splitPane.setEnabled(false);
+    	
+    	
     	addWindowListener( new WindowAdapter() {
 			public void windowClosing( WindowEvent windowevent ) {
 				remove( gljpanel );
@@ -85,7 +99,7 @@ public class EditorEngine extends JFrame implements GLEventListener{
 		
 		gl.glMatrixMode(GL2.GL_PROJECTION);
 		gl.glLoadIdentity();
-		gl.glOrtho(0, WINDOW_WIDTH, WINDOW_HEIGHT, 0, 0, 1);
+		gl.glOrtho(0, GL_WIDTH, WINDOW_HEIGHT, 0, 0, 1);
 		gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT); // clear the framebuffer
 		gl.glMatrixMode(GL2.GL_MODELVIEW);
 		gl.glLoadIdentity();
