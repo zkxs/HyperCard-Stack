@@ -24,7 +24,9 @@ public class View
 			Orientation orientation,
 			String identifier
 		) {
-		
+		this.orientation = orientation;
+		this.identifier = identifier;
+		viewCounter++;
 	}
 	
 	/**
@@ -33,7 +35,7 @@ public class View
 	 */
 	public View()
 	{
-		this(new Orientation(), "New View " + viewCounter++);
+		this(new Orientation(), "New View " + viewCounter);
 	}
 	
 	public static class Orientation
@@ -65,4 +67,10 @@ public class View
 		 */
 		public void setPhi(float phi) { this.phi = phi; }
 	}
+	
+	/**
+	 * Get the orientation of this View
+	 * @return the orientation object which can be used to get and set theta and phi
+	 */
+	public Orientation getOrientation(){ return orientation; }
 }
