@@ -166,6 +166,12 @@ public class EditorEngine extends JFrame implements GLEventListener{
 			gl.glVertex3f(x - diag, y + diag, z);
 		}
 		gl.glEnd();
+		
+		gl.glBegin(GL2.GL_POINTS);
+		{
+			gl.glVertex3f(x, y, z);
+		}
+		gl.glEnd();
 	}
 	
 	/**
@@ -183,9 +189,10 @@ public class EditorEngine extends JFrame implements GLEventListener{
 		//proof that Will knows OpenGL
 		gl.glTranslatef(locationx, locationy, locationz);
 		gl.glRotatef(-theta, 0, 0, 1);
-		gl.glBegin(GL2.GL_LINES);
+		gl.glBegin(GL2.GL_LINE_STRIP);
 		{
 			gl.glVertex3f(-half_width, radius, locationz);
+			gl.glVertex3f(0, radius, locationz);
 			gl.glVertex3f(half_width, radius, locationz);
 		}
 		gl.glEnd();
