@@ -1,7 +1,13 @@
 package editor;
 
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.nio.IntBuffer;
+
+import javax.media.opengl.GL;
 import javax.media.opengl.GL2;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLCapabilities;
@@ -13,10 +19,11 @@ import javax.swing.JFrame;
 import javax.swing.JSplitPane;
 
 import com.jogamp.opengl.util.FPSAnimator;
+import com.jogamp.opengl.util.GLBuffers;
 
 
 @SuppressWarnings("serial")
-public class EditorEngine extends JFrame implements GLEventListener{
+public class EditorEngine extends JFrame implements GLEventListener, MouseListener, MouseMotionListener{
 	public static final int WINDOW_WIDTH = 1280;
 	public static final int WINDOW_HEIGHT = 720;
 	public static final String WINDOW_TITLE = "HyperCard Stack Editor";
@@ -33,6 +40,11 @@ public class EditorEngine extends JFrame implements GLEventListener{
 	private ToolsPalette toolsPalette;
 	private JSplitPane splitPane;
 	private boolean picking;
+	
+	//used for panning the camera
+	int mouseX, mouseY;
+    int oldXOffset, oldYOffset;
+    int xOffset, yOffset;
 
 	public static void main(String[] args) {
 		new EditorEngine();
@@ -42,7 +54,6 @@ public class EditorEngine extends JFrame implements GLEventListener{
 		super(WINDOW_TITLE);
 		init();
 	}
-    
     
     public void init()
     {
@@ -64,6 +75,9 @@ public class EditorEngine extends JFrame implements GLEventListener{
     	
     	splitPane.setDividerLocation(GL_WIDTH);
     	splitPane.setEnabled(false);
+    	
+    	gljpanel.addMouseListener(this);
+    	gljpanel.addMouseMotionListener(this);
     	
     	addWindowListener( new WindowAdapter() {
 			public void windowClosing( WindowEvent windowevent ) {
@@ -104,10 +118,31 @@ public class EditorEngine extends JFrame implements GLEventListener{
 			gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT); // clear the framebuffer
 			gl.glMatrixMode(GL2.GL_MODELVIEW);
 			gl.glLoadIdentity();
+			
+			gl.glTranslatef(xOffset, -yOffset, 0); //pan the camera
 			editor.draw(this, gl);
 		}
 		else{
-			
+			int buffersize = 256;
+			int[] viewPort = new int[4];
+			IntBuffer selectBuffer = GLBuffers.newDirectIntBuffer(buffersize);
+			int hits = 0;
+			gl.glGetIntegerv(GL.GL_VIEWPORT, viewPort, 0);
+			gl.glSelectBuffer(buffersize, selectBuffer);
+			gl.glRenderMode(GL2.GL_SELECT);
+			gl.glInitNames();
+			gl.glPushName(-1);
+			gl.glMatrixMode(GL2.GL_PROJECTION);
+			gl.glPushMatrix();
+			gl.glLoadIdentity();
+			glu.gluPickMatrix(getWidth() / 2,  getHeight() / 2 - 40, 10.0d, 10.0d, viewPort, 0);
+			editor.draw(this, gl);
+			gl.glMatrixMode(GL2.GL_PROJECTION);
+			gl.glPopMatrix();
+			gl.glFlush();
+			hits = gl.glRenderMode(GL2.GL_RENDER);
+			processHits(hits, selectBuffer);
+			picking = false;
 		}
 	}
 
@@ -127,6 +162,26 @@ public class EditorEngine extends JFrame implements GLEventListener{
 		double AR = (float)GL_WIDTH / WINDOW_HEIGHT;
 		if (AR*height<width) gl.glViewport(x, y, (int) (AR*height), height);
 		else gl.glViewport(x, y, width, (int) (width/AR));
+	}
+	
+	public void processHits(int hits, IntBuffer buffer){
+		int offset = 0;
+		int names;
+		long z1, z2;
+		for (int i=0;i<hits;i++)
+		{
+			names = buffer.get(offset); offset++;
+			z1 = ((long) buffer.get(offset) & 0xffffffffl); 
+			offset++;
+			z2 = ((long) buffer.get(offset) & 0xffffffffl); 
+			offset++;
+			//z1 and z2 are the entrance and exit depth
+
+			for (int j=0;j<names;j++){
+				//buffer.get(offset) is the id of the hit object
+				offset++;
+			}
+		}
 	}
 	
 	public void setColor(float red, float green, float blue)
@@ -156,6 +211,7 @@ public class EditorEngine extends JFrame implements GLEventListener{
 	public void drawLocation(float x, float y, float z){
 		float radius = 5f;
 		float diag = 3.5f;
+		//gl.glLoadName(unique_location_id); // for picking
 		gl.glBegin(GL2.GL_LINE_LOOP);
 		{
 			gl.glVertex3f(x, y + radius, z);
@@ -189,6 +245,7 @@ public class EditorEngine extends JFrame implements GLEventListener{
 		float half_width = 8f;
 		
 		//proof that Will knows OpenGL
+		//gl.glLoadName(unique_view_id); //for picking
 		gl.glTranslatef(locationx, locationy, locationz);
 		gl.glRotatef(-theta, 0, 0, 1);
 		gl.glBegin(GL2.GL_LINE_STRIP);
@@ -201,4 +258,40 @@ public class EditorEngine extends JFrame implements GLEventListener{
 		gl.glRotatef(theta, 0, 0, 1);
 		gl.glTranslatef(-locationx, -locationy, -locationz);
 	}
+
+	@Override
+	public void mouseDragged(MouseEvent e) {
+		if(e.getModifiersEx() == MouseEvent.BUTTON3_DOWN_MASK){
+			xOffset = (e.getX() - mouseX) + oldXOffset;
+			yOffset = (e.getY() - mouseY) + oldYOffset;
+		}
+	}
+	
+	@Override
+	public void mousePressed(MouseEvent e) {
+		if(e.getButton() == MouseEvent.BUTTON3){
+			mouseX = e.getX();
+			mouseY = e.getY();
+		}
+	}
+	
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		if(e.getButton() == MouseEvent.BUTTON3){
+			oldXOffset = xOffset;
+			oldYOffset = yOffset;
+		}
+	}
+
+	@Override
+	public void mouseMoved(MouseEvent e) {}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {}
+
+	@Override
+	public void mouseExited(MouseEvent e) {}
 }
