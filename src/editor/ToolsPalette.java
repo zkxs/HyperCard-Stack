@@ -86,8 +86,18 @@ public class ToolsPalette extends JPanel implements ActionListener{
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(e.getSource() == createLocation){
+		Object source = e.getSource();
+		if(source == createLocation){
 			editor.createLocation();
+		}
+		else if(source == createView){
+			editor.createView();
+		}
+		else if(source == deleteView){
+			editor.deleteView();
+		}
+		else if(source == editView){
+			editor.editView();
 		}
 	}
 }

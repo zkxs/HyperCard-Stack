@@ -7,7 +7,7 @@ import common.gameelements.Map;
 public class Editor {
 	private ToolsPalette toolsPalette;
 	private Map map;
-	private enum Selection {
+	private enum MapSelection {
 		NONE,
 		LOCATION,
 		VIEW
@@ -18,7 +18,7 @@ public class Editor {
 		EDIT_VIEW //editing navAreas and manipulators
 	}
 	
-	private Selection selection;
+	private MapSelection selection;
 	private EditMode editMode;
 	
 	public Editor(){
@@ -26,25 +26,25 @@ public class Editor {
 	
 	public void init(ToolsPalette tools){
 		toolsPalette = tools;
-		selection = Selection.NONE;
+		selection = MapSelection.NONE;
 		editMode = EditMode.EDIT_MAP;
 	}
 	
 	public void update(){
 		if(editMode == EditMode.EDIT_MAP){
-		switch(selection){
-		case NONE:
-			toolsPalette.setNothingSelected();
-			break;
-		case LOCATION:
-			toolsPalette.setLocationSelected();
-			break;
-		case VIEW:
-			toolsPalette.setViewSelected();
-			break;
+			switch(selection){
+			case NONE:
+				toolsPalette.setNothingSelected();
+				break;
+			case LOCATION:
+				toolsPalette.setLocationSelected();
+				break;
+			case VIEW:
+				toolsPalette.setViewSelected();
+				break;
+			}
 		}
-		}
-		else{ //edit mode == edit_view
+		else if(editMode == EditMode.EDIT_VIEW){
 			
 		}
 	}
@@ -71,6 +71,18 @@ public class Editor {
 	}
 	
 	public void createLocation(){
+		
+	}
+	
+	public void createView(){
+		
+	}
+	
+	public void deleteView(){
+		
+	}
+	
+	public void editView(){
 		
 	}
 }
