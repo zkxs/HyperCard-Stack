@@ -31,7 +31,7 @@ public class EditorEngine extends JFrame implements GLEventListener{
 	private FPSAnimator fpsanimator;
 	private Editor editor;
 	private ToolsPalette toolsPalette;
-	
+	private JSplitPane splitPane;
 	private boolean picking;
 
 	public static void main(String[] args) {
@@ -46,7 +46,7 @@ public class EditorEngine extends JFrame implements GLEventListener{
     
     public void init()
     {
-    	JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+    	splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
     	getContentPane().add(splitPane);
     	editor = new Editor();
     	
@@ -124,7 +124,7 @@ public class EditorEngine extends JFrame implements GLEventListener{
 
 	@Override
 	public void reshape(GLAutoDrawable glautodrawable, int x, int y, int width, int height) {
-		
+		splitPane.setDividerLocation(getWidth() - ToolsPalette.PALETTE_WIDTH);
 	}
 	
 	public void setColor(float red, float green, float blue)
