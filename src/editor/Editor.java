@@ -64,6 +64,8 @@ public class Editor {
 			
 		}
 		gl.glEnd();
+		
+		e.drawLocation(200, 200);
 	}
 	
 	public void destroy(){

@@ -144,4 +144,21 @@ public class EditorEngine extends JFrame implements GLEventListener{
 		}
 		gl.glEnd();
 	}
+	
+	public void drawLocation(float x, float y){
+		float radius = 5f;
+		float diag = 3.5f;
+		gl.glBegin(GL2.GL_LINE_LOOP);
+		{
+			gl.glVertex2f(x, y + radius);
+			gl.glVertex2f(x + diag, y + diag);
+			gl.glVertex2f(x + radius, y);
+			gl.glVertex2f(x + diag, y - diag);
+			gl.glVertex2f(x, y - radius);
+			gl.glVertex2f(x - diag, y - diag);
+			gl.glVertex2f(x - radius, y);
+			gl.glVertex2f(x - diag, y + diag );
+		}
+		gl.glEnd();
+	}
 }
