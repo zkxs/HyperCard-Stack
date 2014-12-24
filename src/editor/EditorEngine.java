@@ -31,6 +31,8 @@ public class EditorEngine extends JFrame implements GLEventListener{
 	private FPSAnimator fpsanimator;
 	private Editor editor;
 	private ToolsPalette toolsPalette;
+	
+	private boolean picking;
 
 	public static void main(String[] args) {
 		new EditorEngine();
@@ -97,13 +99,18 @@ public class EditorEngine extends JFrame implements GLEventListener{
 	public void display(GLAutoDrawable glautodrawable) {
 		editor.update();
 		
-		gl.glMatrixMode(GL2.GL_PROJECTION);
-		gl.glLoadIdentity();
-		gl.glOrtho(0, GL_WIDTH, WINDOW_HEIGHT, 0, 0, 1);
-		gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT); // clear the framebuffer
-		gl.glMatrixMode(GL2.GL_MODELVIEW);
-		gl.glLoadIdentity();
-		editor.draw(this, gl);
+		if(!picking){
+			gl.glMatrixMode(GL2.GL_PROJECTION);
+			gl.glLoadIdentity();
+			gl.glOrtho(0, GL_WIDTH, WINDOW_HEIGHT, 0, 0, 1);
+			gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT); // clear the framebuffer
+			gl.glMatrixMode(GL2.GL_MODELVIEW);
+			gl.glLoadIdentity();
+			editor.draw(this, gl);
+		}
+		else{
+			
+		}
 	}
 
 	@Override
