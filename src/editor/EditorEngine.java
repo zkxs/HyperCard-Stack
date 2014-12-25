@@ -312,6 +312,5 @@ public class EditorEngine extends JFrame implements GLEventListener, MouseListen
 		else if(e.getWheelRotation() > 0){
 			zoom -= zoom / 2;
 		}
-		System.out.println(zoom);
 	}
 }
