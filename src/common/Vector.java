@@ -111,6 +111,17 @@ public class Vector
 	}
 	
 	/**
+	 * Check if a vector has the expected number of dimensions
+	 * @param expected the expected number of dimensions
+	 * @throws DiminsionMismatchException If the vector does not have the expected dimensionality
+	 */
+	public void checkDimensions(int expected)
+	{
+		if (this.getDimensions() != expected)
+			throw new DimensionMismatchException();
+	}
+	
+	/**
 	 * Get the magnitude of this vector. Note that {@link Vector#getMagnitudeSquared()}
 	 * is less expensive and works fine for comparisons.
 	 * @return The magnitude of this vector
