@@ -57,4 +57,13 @@ public class Location
 	{
 		position.setComponents(positionComponents);
 	}
+	
+	/**
+	 * Get this locations's position
+	 * @return this locations's position
+	 */
+	public Vector getPosition()
+	{
+		return position;
+	}
 }
