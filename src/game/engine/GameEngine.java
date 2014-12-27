@@ -13,16 +13,16 @@ public class GameEngine {
 	}
 	
 	public GameEngine(){
-		renderer = new OpenGLRenderer();
-		renderer.init();
-		 
 		game = new Game();
         game.init();
+        
+		renderer = new OpenGLRenderer();
+		renderer.init(game);
 	}
 	
 	public void run()
 	{
-		renderer.updateLoop(game);
+		renderer.updateLoop();
 		renderer.destroy();
 	}
 }
