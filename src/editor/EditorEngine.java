@@ -281,6 +281,8 @@ public class EditorEngine extends JFrame implements GLEventListener, MouseListen
 		else if(e.getButton() == MouseEvent.BUTTON2){ // reset pan to origin
 			xOffset = 0;
 			yOffset = 0;
+			oldXOffset = 0;
+			oldYOffset = 0;
 		}
 	}
 	
@@ -289,6 +291,9 @@ public class EditorEngine extends JFrame implements GLEventListener, MouseListen
 		if(e.getButton() == MouseEvent.BUTTON3){
 			oldXOffset = xOffset;
 			oldYOffset = yOffset;
+		}
+		else if(e.getButton() == MouseEvent.BUTTON2){
+
 		}
 	}
 
