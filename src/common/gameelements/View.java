@@ -1,5 +1,7 @@
 package common.gameelements;
 
+import game.engine.renderer.Renderer;
+
 /**
  * A single view. A view is what is displayed on the screen when the user is standing
  * at a Location looking in a specific direction
@@ -36,6 +38,16 @@ public class View
 	public View()
 	{
 		this(new Orientation(), "New View " + viewCounter);
+	}
+	
+	/**
+	 * Draw this view
+	 * @param r The renderer to draw with
+	 */
+	public void draw(Renderer r)
+	{
+		// how to do this from a script?
+		// should background images be a default thing?
 	}
 	
 	public static class Orientation
