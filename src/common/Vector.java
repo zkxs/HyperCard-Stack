@@ -68,16 +68,19 @@ public class Vector
 	}
 	
 	/**
-	 * Set the vector's components 
+	 * Set the vector's components. This performs a shallow copy.
 	 * @param components the vector's new components
+	 * @throws DimensionMismatchException If the new components do not have
+	 * the same dimensionality as the existing vector
 	 */
 	public void setComponents(double... components)
 	{
+		checkDimensions(components.length);
 		this.components = components;
 	}
 	
 	/**
-	 * Set this vector's components
+	 * Set this vector's components. This performs a deep copy.
 	 * @param vector A vector who's components you want to copy into this vector
 	 * @throws DimensionMismatchException If the two vectors are not the same size
 	 */
