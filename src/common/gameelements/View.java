@@ -41,6 +41,24 @@ public class View
 	}
 	
 	/**
+	 * Get this view's unique identifier
+	 * @return this view's unique identifier
+	 */
+	public String getIdentifier()
+	{
+		return identifier;
+	}
+
+	/**
+	 * Set this view's unique identifier
+	 * @param identifier this view's new unique identifier
+	 */
+	public void setIdentifier(String identifier)
+	{
+		this.identifier = identifier;
+	}
+
+	/**
 	 * Draw this view
 	 * @param r The renderer to draw with
 	 */
