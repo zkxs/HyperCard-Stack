@@ -22,6 +22,7 @@ import javax.swing.JSplitPane;
 
 import com.jogamp.opengl.util.FPSAnimator;
 import com.jogamp.opengl.util.GLBuffers;
+import common.gameelements.Location;
 
 
 @SuppressWarnings("serial")
@@ -213,26 +214,29 @@ public class EditorEngine extends JFrame implements GLEventListener, MouseListen
 	 * @param y y coordinate of the location
 	 * @param z z coordinate of the location
 	 */
-	public void drawLocation(float x, float y, float z){
+	public void drawLocation(Location loc){
 		float radius = 5f;
 		float diag = 3.5f;
+		double x = loc.getPosition().getComponents()[0];
+		double y = loc.getPosition().getComponents()[1];
+		double z = loc.getPosition().getComponents()[2];
 		//gl.glLoadName(unique_location_id); // for picking
 		gl.glBegin(GL2.GL_LINE_LOOP);
 		{
-			gl.glVertex3f(x, y + radius, z);
-			gl.glVertex3f(x + diag, y + diag, z);
-			gl.glVertex3f(x + radius, y, z);
-			gl.glVertex3f(x + diag, y - diag, z);
-			gl.glVertex3f(x, y - radius, z);
-			gl.glVertex3f(x - diag, y - diag, z);
-			gl.glVertex3f(x - radius, y, z);
-			gl.glVertex3f(x - diag, y + diag, z);
+			gl.glVertex3d(x, y + radius, z);
+			gl.glVertex3d(x + diag, y + diag, z);
+			gl.glVertex3d(x + radius, y, z);
+			gl.glVertex3d(x + diag, y - diag, z);
+			gl.glVertex3d(x, y - radius, z);
+			gl.glVertex3d(x - diag, y - diag, z);
+			gl.glVertex3d(x - radius, y, z);
+			gl.glVertex3d(x - diag, y + diag, z);
 		}
 		gl.glEnd();
 		
 		gl.glBegin(GL2.GL_POINTS);
 		{
-			gl.glVertex3f(x, y, z);
+			gl.glVertex3d(x, y, z);
 		}
 		gl.glEnd();
 	}

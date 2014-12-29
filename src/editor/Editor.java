@@ -2,6 +2,8 @@ package editor;
 
 import javax.media.opengl.GL2;
 import java.util.Hashtable;
+import java.util.Iterator;
+
 import common.gameelements.Location;
 
 import common.gameelements.GameMap;
@@ -27,6 +29,7 @@ public class Editor {
 	}
 	
 	public void init(ToolsPalette tools){
+		map = new GameMap();
 		toolsPalette = tools;
 		selection = MapSelection.NONE;
 		editMode = EditMode.EDIT_MAP;
@@ -55,7 +58,10 @@ public class Editor {
 //		e.setColor(1f, 1f, 1f);
 //		e.drawLocation(200, 200, 0);
 //		e.drawView(200, 200, 0, 40, 0);
-		
+		Iterator<Location> locIt = map.getLocationIterator();
+		while(locIt.hasNext()){
+			e.drawLocation(locIt.next());
+		}
 		
 	}
 	
