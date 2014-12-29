@@ -1,6 +1,8 @@
 package common.gameelements;
 
+import java.util.Collection;
 import java.util.Hashtable;
+import java.util.Iterator;
 
 import common.gameelements.exceptions.*;
 
@@ -8,7 +10,7 @@ import common.gameelements.exceptions.*;
  * Contains all object relevant to the games map. This includes
  * all locations and puzzlesControllers.
  */
-public class Map
+public class GameMap
 {
 	private Hashtable<String, Location> locations;
 	private Hashtable<String, PuzzleController> puzzleControllers;
@@ -29,7 +31,7 @@ public class Map
 	}
 	
 	/**
-	 * Add a new Location to this Map
+	 * Add a new Location to this GameMap
 	 * @param location The location to add
 	 * @throws DuplicateLocationException if a location with the same unique ID already exists
 	 */
@@ -74,6 +76,17 @@ public class Map
 			// nothing was removed!
 			throw new LocationNotFoundException(id);
 		}
+	}
+	
+	/**
+	 * Get an iterator over all locations in this GameMap. The iterator supports element
+	 * removal via the .remove() method. The .add() method is NOT supported. If GameMap.locations
+	 * is modified during iteration, the results of the iteration are undefined.
+	 * @return an Iterator over all Locations in the GameMap.
+	 */
+	public Iterator<Location> getLocationIterator()
+	{
+		return locations.values().iterator();
 	}
 	
 	/**

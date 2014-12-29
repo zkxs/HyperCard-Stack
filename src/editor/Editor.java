@@ -2,11 +2,11 @@ package editor;
 
 import javax.media.opengl.GL2;
 
-import common.gameelements.Map;
+import common.gameelements.GameMap;
 
 public class Editor {
 	private ToolsPalette toolsPalette;
-	private Map map;
+	private GameMap map;
 	private enum MapSelection {
 		NONE,
 		LOCATION,
