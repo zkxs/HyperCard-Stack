@@ -38,10 +38,14 @@ public class Map
 		boolean present = locations.contains(location.getIdentifier());
 		if (present)
 		{
-			// then a location with this ID allready exists!
+			// then a location with this ID already exists!
 			throw new DuplicateLocationException(location.getIdentifier());
 		}
-		// otherwise it worked and all is good
+		else
+		{
+			// we must add the new location
+			locations.put(location.getIdentifier(), location); // should always return null
+		}
 		
 		// end method
 		
