@@ -8,7 +8,10 @@ import game.engine.renderer.Renderer;
  */
 public class View
 {	
-	/** Used to name new default view instances */
+	/**
+	 * Used to name new default view instances.
+	 * This is not a thread-safe solution.
+	 */
 	private static int viewCounter = 1;
 	
 	/** The orientation of this view */
@@ -25,7 +28,7 @@ public class View
 	public View(
 			Orientation orientation,
 			String identifier
-		) {
+		) { // I listed the args like this as I envision more args being added later
 		this.orientation = orientation;
 		this.identifier = identifier;
 		viewCounter++;
