@@ -1,6 +1,5 @@
 package common.gameelements;
 
-import java.util.Collection;
 import java.util.Hashtable;
 import java.util.Iterator;
 
@@ -14,6 +13,12 @@ public class GameMap
 {
 	private Hashtable<String, Location> locations;
 	private Hashtable<String, PuzzleController> puzzleControllers;
+	
+	public GameMap()
+	{
+		locations = new Hashtable<String, Location>();
+		puzzleControllers = new Hashtable<String, PuzzleController>();
+	}
 	
 	/**
 	 * Look up a Location from its unique ID
