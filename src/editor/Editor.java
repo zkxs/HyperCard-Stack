@@ -1,7 +1,8 @@
 package editor;
 
 import javax.media.opengl.GL2;
-
+import java.util.Hashtable;
+import common.gameelements.Location;
 import common.gameelements.Map;
 
 public class Editor {
@@ -50,9 +51,11 @@ public class Editor {
 	}
 	
 	public void draw(EditorEngine e, GL2 gl){
-		e.setColor(1f, 1f, 1f);
-		e.drawLocation(200, 200, 0);
-		e.drawView(200, 200, 0, 40, 0);
+//		e.setColor(1f, 1f, 1f);
+//		e.drawLocation(200, 200, 0);
+//		e.drawView(200, 200, 0, 40, 0);
+		
+		
 	}
 	
 	public void destroy(){
@@ -60,7 +63,9 @@ public class Editor {
 	}
 	
 	public void createLocation(){
-		
+		Location location = new Location();
+		location.setPosition(0, 0, 0);
+		map.addLocation(location);
 	}
 	
 	public void createView(){
