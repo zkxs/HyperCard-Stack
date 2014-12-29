@@ -1,7 +1,6 @@
 package editor;
 
 import javax.media.opengl.GL2;
-import java.util.Hashtable;
 import java.util.Iterator;
 
 import common.gameelements.Location;
@@ -63,7 +62,6 @@ public class Editor {
 		while(locIt.hasNext()){
 			e.drawLocation(locIt.next());
 		}
-		
 	}
 	
 	public void destroy(){
@@ -94,5 +92,17 @@ public class Editor {
 	
 	public void editView(){
 		
+	}
+	
+	public void setX(int x){
+		selectedLocation.getPosition().getComponents()[0] = x;
+	}
+	
+	public void setY(int y){
+		selectedLocation.getPosition().getComponents()[1] = y;
+	}
+	
+	public void setZ(int z){
+		selectedLocation.getPosition().getComponents()[2] = z;
 	}
 }

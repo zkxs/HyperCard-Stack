@@ -7,12 +7,14 @@ import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
 public class ToolsPalette extends JPanel implements ActionListener{
 	private JButton createView, deleteView, editView;
 	private JButton createLocation, deleteLocation;
+	private JButton setX, setY, setZ;
 	private ArrayList<JButton> buttons;
 	public static final int PALETTE_WIDTH = EditorEngine.WINDOW_WIDTH - EditorEngine.GL_WIDTH;
 	private Editor editor;
@@ -33,10 +35,18 @@ public class ToolsPalette extends JPanel implements ActionListener{
 		buttons.add(deleteView);
 		editView = new JButton("Edit View");
 		buttons.add(editView);
+		
 		createLocation = new JButton("Create Location");
 		buttons.add(createLocation);
 		deleteLocation = new JButton("Delete Location");
 		buttons.add(deleteLocation);
+		
+		setX = new JButton("Set X");
+		buttons.add(setX);
+		setY = new JButton("Set Y");
+		buttons.add(setY);
+		setZ = new JButton("Set Z");
+		buttons.add(setZ);
 		
 		for(JButton b : buttons){
 			b.addActionListener(this);
@@ -65,6 +75,9 @@ public class ToolsPalette extends JPanel implements ActionListener{
 		removeAll();
 		add(createView);
 		add(deleteLocation);
+		add(setX);
+		add(setY);
+		add(setZ);
 		
 		revalidate();
 		repaint();
@@ -101,6 +114,15 @@ public class ToolsPalette extends JPanel implements ActionListener{
 		}
 		else if(source == editView){
 			editor.editView();
+		}
+		else if(source == setX){
+			editor.setX(Integer.parseInt(JOptionPane.showInputDialog("Enter X Coordinate")));
+		}
+		else if(source == setY){
+			editor.setY(Integer.parseInt(JOptionPane.showInputDialog("Enter Y Coordinate")));
+		}
+		else if(source == setZ){
+			editor.setZ(Integer.parseInt(JOptionPane.showInputDialog("Enter Z Coordinate")));
 		}
 	}
 }

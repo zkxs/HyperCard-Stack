@@ -220,7 +220,8 @@ public class EditorEngine extends JFrame implements GLEventListener, MouseListen
 		double x = loc.getPosition().getComponents()[0];
 		double y = loc.getPosition().getComponents()[1];
 		double z = loc.getPosition().getComponents()[2];
-		//gl.glLoadName(unique_location_id); // for picking
+		String id = loc.getIdentifier();
+		gl.glLoadName(id.hashCode()); // for picking
 		gl.glBegin(GL2.GL_LINE_LOOP);
 		{
 			gl.glVertex3d(x, y + radius, z);
