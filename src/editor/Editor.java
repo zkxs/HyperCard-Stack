@@ -5,12 +5,16 @@ import java.util.Hashtable;
 import java.util.Iterator;
 
 import common.gameelements.Location;
+import common.gameelements.View;
 
 import common.gameelements.GameMap;
 
 public class Editor {
 	private ToolsPalette toolsPalette;
 	private GameMap map;
+	private Location selectedLocation;
+	private View selectedView;
+	
 	private enum MapSelection {
 		NONE,
 		LOCATION,
@@ -55,9 +59,6 @@ public class Editor {
 	}
 	
 	public void draw(EditorEngine e, GL2 gl){
-//		e.setColor(1f, 1f, 1f);
-//		e.drawLocation(200, 200, 0);
-//		e.drawView(200, 200, 0, 40, 0);
 		Iterator<Location> locIt = map.getLocationIterator();
 		while(locIt.hasNext()){
 			e.drawLocation(locIt.next());
@@ -70,13 +71,21 @@ public class Editor {
 	}
 	
 	public void createLocation(){
-		Location location = new Location();
-		location.setPosition(0, 0, 0);
-		map.addLocation(location);
+		selectedLocation = new Location();
+		selectedLocation.setPosition(0, 0, 0);
+		map.addLocation(selectedLocation);
+		selection = MapSelection.LOCATION;
 	}
 	
 	public void createView(){
 		
+	}
+	
+	public void deleteLocation(){
+		String id = selectedLocation.getIdentifier();
+		map.removeLocation(id);
+		selectedLocation = null;
+		selection = MapSelection.NONE;
 	}
 	
 	public void deleteView(){

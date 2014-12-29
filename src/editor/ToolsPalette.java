@@ -90,6 +90,9 @@ public class ToolsPalette extends JPanel implements ActionListener{
 		if(source == createLocation){
 			editor.createLocation();
 		}
+		else if(source == deleteLocation){
+			editor.deleteLocation();
+		}
 		else if(source == createView){
 			editor.createView();
 		}
