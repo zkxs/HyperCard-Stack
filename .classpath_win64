@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jre1.8.0_25 64bit"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.6.0_45 64bit"/>
 	<classpathentry kind="lib" path="jogamp-all-platforms/jar/gluegen-rt.jar"/>
 	<classpathentry kind="lib" path="jogamp-all-platforms/jar/gluegen.jar"/>
 	<classpathentry kind="lib" path="jogamp-all-platforms/jar/jogl-all.jar" sourcepath="jogamp-all-platforms">

@@ -35,6 +35,17 @@ public class Map
 	 */
 	public void addLocation(Location location)
 	{
+		boolean present = locations.contains(location.getIdentifier());
+		if (present)
+		{
+			// then a location with this ID allready exists!
+			throw new DuplicateLocationException(location.getIdentifier());
+		}
+		// otherwise it worked and all is good
+		
+		// end method
+		
+		/* The following code works in Java 8+ and uses only one hashtable lookup:
 		Location currentValue = locations.putIfAbsent(location.getIdentifier(), location);
 		if (currentValue != null)
 		{
@@ -42,6 +53,7 @@ public class Map
 			throw new DuplicateLocationException(location.getIdentifier());
 		}
 		// otherwise it worked and all is good
+		*/
 	}
 	
 	/**
