@@ -31,7 +31,6 @@ public class View
 		) { // I listed the args like this as I envision more args being added later
 		this.orientation = orientation;
 		this.identifier = identifier;
-		viewCounter++;
 	}
 	
 	/**
@@ -41,6 +40,7 @@ public class View
 	public View()
 	{
 		this(new Orientation(), "New View " + viewCounter);
+		viewCounter++;
 	}
 	
 	/**

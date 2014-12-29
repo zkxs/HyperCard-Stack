@@ -1,5 +1,8 @@
 package common.gameelements.exceptions;
 
+/**
+ * Thrown if a Location is not found
+ */
 public class LocationNotFoundException extends RuntimeException
 {
 	/** This should be incremented if this class is modified */

@@ -1,6 +1,6 @@
 package common.gameelements;
 
-import java.util.HashMap;
+import java.util.Hashtable;
 
 import common.gameelements.exceptions.*;
 
@@ -10,8 +10,8 @@ import common.gameelements.exceptions.*;
  */
 public class Map
 {
-	private HashMap<String, Location> locations;
-	private HashMap<String, PuzzleController> puzzleControllers;
+	private Hashtable<String, Location> locations;
+	private Hashtable<String, PuzzleController> puzzleControllers;
 	
 	/**
 	 * Look up a Location from its unique ID
@@ -26,6 +26,38 @@ public class Map
 			throw new LocationNotFoundException(id);
 		else
 			return toReturn;
+	}
+	
+	/**
+	 * Add a new Location to this Map
+	 * @param location The location to add
+	 * @throws DuplicateLocationException if a location with the same unique ID already exists
+	 */
+	public void addLocation(Location location)
+	{
+		Location currentValue = locations.putIfAbsent(location.getIdentifier(), location);
+		if (currentValue != null)
+		{
+			// then a location with this ID allready exists!
+			throw new DuplicateLocationException(location.getIdentifier());
+		}
+		// otherwise it worked and all is good
+	}
+	
+	/**
+	 * Remove a location from this map. This may cause map errors if links to this location
+	 * exist elsewhere.
+	 * @param id The unique ID of the location to remove
+	 * @throws LocationNotFoundException if the location id was not valid
+	 */
+	public void removeLocation(String id)
+	{
+		Location removed = locations.remove(id);
+		if (removed == null)
+		{
+			// nothing was removed!
+			throw new LocationNotFoundException(id);
+		}
 	}
 	
 	/**

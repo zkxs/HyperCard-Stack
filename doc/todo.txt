@@ -1,0 +1,3 @@
+Map validator:
+	Maps may contain invalid data (links to locations that no longer exist)
+	The map validator would search be a feature of the editor, and would search for and identify invalid map data

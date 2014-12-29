@@ -1,5 +1,8 @@
 package common.gameelements.exceptions;
 
+/**
+ * Thrown if a PuzzleController is not found
+ */
 public class PuzzleControllerNotFoundException extends RuntimeException
 {
 	/** This should be incremented if this class is modified */
