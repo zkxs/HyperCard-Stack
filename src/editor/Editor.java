@@ -1,7 +1,10 @@
 package editor;
 
 import javax.media.opengl.GL2;
+
+import java.util.Hashtable;
 import java.util.Iterator;
+import java.util.Map;
 
 import common.gameelements.Location;
 import common.gameelements.View;
@@ -13,6 +16,11 @@ public class Editor {
 	private GameMap map;
 	private Location selectedLocation;
 	private View selectedView;
+	
+	// map location string ids to ints because opengl picking needs an int id
+	public Hashtable<String, Integer> locationIntIds;
+	public Hashtable<Integer, String> locationStringIds;
+	private int locationCounter = 0;
 	
 	private enum MapSelection {
 		NONE,
@@ -33,6 +41,8 @@ public class Editor {
 	
 	public void init(ToolsPalette tools){
 		map = new GameMap();
+		locationIntIds = new Hashtable<String, Integer>();
+		locationStringIds = new Hashtable<Integer, String>();
 		toolsPalette = tools;
 		selection = MapSelection.NONE;
 		editMode = EditMode.EDIT_MAP;
@@ -68,8 +78,16 @@ public class Editor {
 		
 	}
 	
+	public void selectLocation(int id){
+		String sid = locationStringIds.get(id);
+		selectedLocation = map.getLocation(sid);
+	}
+	
 	public void createLocation(){
 		selectedLocation = new Location();
+		locationIntIds.put(selectedLocation.getIdentifier(), locationCounter);
+		locationStringIds.put(locationCounter, selectedLocation.getIdentifier());
+		locationCounter++;
 		selectedLocation.setPosition(0, 0, 0);
 		map.addLocation(selectedLocation);
 		selection = MapSelection.LOCATION;
@@ -82,6 +100,9 @@ public class Editor {
 	public void deleteLocation(){
 		String id = selectedLocation.getIdentifier();
 		map.removeLocation(id);
+		locationStringIds.remove(locationIntIds.get(id));
+		locationIntIds.remove(id);
+		locationCounter--;
 		selectedLocation = null;
 		selection = MapSelection.NONE;
 	}

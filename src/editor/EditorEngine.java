@@ -118,15 +118,7 @@ public class EditorEngine extends JFrame implements GLEventListener, MouseListen
 	public void display(GLAutoDrawable glautodrawable) {
 		editor.update();
 		if(!picking){
-			gl.glMatrixMode(GL2.GL_PROJECTION);
-			gl.glLoadIdentity();
-			gl.glOrtho(0, GL_WIDTH / zoom, 0, WINDOW_HEIGHT / zoom, 0, 1);
-			gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT); // clear the framebuffer
-			gl.glMatrixMode(GL2.GL_MODELVIEW);
-			gl.glLoadIdentity();
-			
-			gl.glTranslatef(xOffset / zoom, -yOffset / zoom, 0); //pan the camera
-			editor.draw(this, gl);
+			displayScene(gl);
 		}
 		else{
 			int buffersize = 256;
@@ -142,7 +134,7 @@ public class EditorEngine extends JFrame implements GLEventListener, MouseListen
 			gl.glPushMatrix();
 			gl.glLoadIdentity();
 			glu.gluPickMatrix(getWidth() / 2,  getHeight() / 2 - 40, 10.0d, 10.0d, viewPort, 0);
-			editor.draw(this, gl);
+			displayScene(gl);
 			gl.glMatrixMode(GL2.GL_PROJECTION);
 			gl.glPopMatrix();
 			gl.glFlush();
@@ -150,6 +142,18 @@ public class EditorEngine extends JFrame implements GLEventListener, MouseListen
 			processHits(hits, selectBuffer);
 			picking = false;
 		}
+	}
+	
+	public void displayScene(GL2 gl){
+		gl.glMatrixMode(GL2.GL_PROJECTION);
+		gl.glLoadIdentity();
+		gl.glOrtho(0, GL_WIDTH / zoom, 0, WINDOW_HEIGHT / zoom, 0, 1);
+		gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT); // clear the framebuffer
+		gl.glMatrixMode(GL2.GL_MODELVIEW);
+		gl.glLoadIdentity();
+		
+		gl.glTranslatef(xOffset / zoom, -yOffset / zoom, 0); //pan the camera
+		editor.draw(this, gl);
 	}
 
 	@Override
@@ -185,6 +189,8 @@ public class EditorEngine extends JFrame implements GLEventListener, MouseListen
 
 			for (int j=0;j<names;j++){
 				//buffer.get(offset) is the id of the hit object
+				System.out.println("picked: " + buffer.get(offset));
+				editor.selectLocation(buffer.get(offset));
 				offset++;
 			}
 		}
@@ -221,7 +227,7 @@ public class EditorEngine extends JFrame implements GLEventListener, MouseListen
 		double y = loc.getPosition().getComponents()[1];
 		double z = loc.getPosition().getComponents()[2];
 		String id = loc.getIdentifier();
-		gl.glLoadName(id.hashCode()); // for picking
+		gl.glLoadName(editor.locationIntIds.get(id)); // for picking
 		gl.glBegin(GL2.GL_LINE_LOOP);
 		{
 			gl.glVertex3d(x, y + radius, z);
@@ -279,7 +285,10 @@ public class EditorEngine extends JFrame implements GLEventListener, MouseListen
 	
 	@Override
 	public void mousePressed(MouseEvent e) {
-		if(e.getButton() == MouseEvent.BUTTON3){
+		if(e.getButton() == MouseEvent.BUTTON1){
+			picking = true;
+		}
+		else if(e.getButton() == MouseEvent.BUTTON3){
 			mouseX = e.getX();
 			mouseY = e.getY();
 		}
