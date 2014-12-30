@@ -1,250 +1,114 @@
 package common;
 
-import common.DimensionMismatchException;
-
 /**
- * A generic vector with a variable number of dimensions. Can be used to represent points.
- * @author Michael Ripley (<a href="mailto:michael-ripley@utulsa.edu">michael-ripley@utulsa.edu</a>) Oct 5, 2014
- * @Deprecated This class was overkill for this project, we're changing to a simpler 3 dimension specific solution
+ * Describes a 3-dimensional vector using floats for components
  */
-@Deprecated
 public class Vector
 {	
-	/** The components of the vector */
-	private double[] components;
+	private float x, y, z;
 	
 	/**
-	 * Create a new zero vector
-	 * @param dimensions Number of components
+	 * Construct a new Vector at <0, 0, 0>
 	 */
-	public Vector(int dimensions)
-	{
-		components = new double[dimensions];
-	}
+	public Vector(){}
 	
 	/**
-	 * Create a new vector given its components.
-	 * @param components The vector's position.
+	 * Create a new vector at <x, y, z>
+	 * @param x The x component
+	 * @param y The y component
+	 * @param z The z component
 	 */
-	public Vector(double... components)
+	public Vector(float x, float y, float z)
 	{
-		setComponents(components);
-	}
-	
-	/**
-	 * Copy constructor. Performs a deep copy.
-	 * @param vector The vector to copy
-	 */
-	public Vector(Vector vector)
-	{
-		components = vector.components.clone();
+		setX(x);
+		setY(y);
+		setZ(z);
 	}
 	
 	/**
-	 * Get the number of dimensions the vector is in
-	 * @return the number of dimensions the vector is in
+	 * Copy constructor. Performs a deep copy of a given vector.
+	 * @param v The vector to copy.
 	 */
-	public int getDimensions()
+	public Vector(Vector v)
 	{
-		return components.length;
+		set(v);
+	}
+
+	/**
+	 * Set the components of this vector to <x, y, z>
+	 * @param x The new x component
+	 * @param y The new y component
+	 * @param z The new z component
+	 */
+	public void set(float x, float y, float z)
+	{
+		setX(x);
+		setY(y);
+		setZ(z);
 	}
 	
 	/**
-	 * Get a component from this vector
-	 * @param dimension the index of the component
-	 * @return the component
-	 * @throws ArrayIndexOutOfBoundsException if the component is > than the vectors dimensionality
+	 * Set the components of this vector using the components of a given vector
+	 * @param v The vector to extract new components from.
 	 */
-	public double getComponent(int dimension)
+	public void set(Vector v)
 	{
-		return components[dimension];
+		set( v.getX(), v.getY(), v.getZ() );
 	}
 	
 	/**
-	 * Get the vector's components. Note that changes to this array will affect this vector.
-	 * @return the vector's components
+	 * Get the x component of this Vector.
+	 * @return the x component of this Vector.
 	 */
-	public double[] getComponents()
+	public float getX()
 	{
-		return components;
+		return x;
 	}
-	
+
 	/**
-	 * Set the vector's components. This performs a shallow copy.
-	 * @param components the vector's new components
-	 * @throws DimensionMismatchException If the new components do not have
-	 * the same dimensionality as the existing vector
+	 * Set the x component of this vector
+	 * @param x the new x component of this vector
 	 */
-	public void setComponents(double... components)
+	public void setX(float x)
 	{
-		checkDimensions(components.length);
-		this.components = components;
+		this.x = x;
 	}
-	
+
 	/**
-	 * Set this vector's components. This performs a deep copy.
-	 * @param vector A vector who's components you want to copy into this vector
-	 * @throws DimensionMismatchException If the two vectors are not the same size
+	 * Get the y component of this Vector.
+	 * @return the y component of this Vector.
 	 */
-	public void setComponents(Vector vector) throws DimensionMismatchException
+	public float getY()
 	{
-		checkDimensions(vector);
-		System.arraycopy(vector.components, 0, components, 0, components.length);
+		return y;
 	}
-	
+
 	/**
-	 * Check if this vector has the same number of dimensions as another
-	 * @param other the other vector
-	 * @throws DiminsionMismatchException If the two vectors are not the same size
+	 * Set the y component of this vector
+	 * @param y the new y component of this vector
 	 */
-	private void checkDimensions(Vector other) throws DimensionMismatchException
+	public void setY(float y)
 	{
-		if (this.getDimensions() != other.getDimensions())
-			throw new DimensionMismatchException();
+		this.y = y;
 	}
-	
+
 	/**
-	 * Check if a vector has the same number of dimensions as another
-	 * @param a a vector
-	 * @param b another vector
-	 * @throws DiminsionMismatchException If the two vectors are not the same size
+	 * Get the z component of this Vector.
+	 * @return the z component of this Vector.
 	 */
-	private static void checkDimensions(Vector a, Vector b) throws DimensionMismatchException
+	public float getZ()
 	{
-		if (a.getDimensions() != b.getDimensions())
-			throw new DimensionMismatchException();
+		return z;
 	}
-	
+
 	/**
-	 * Check if a vector has the expected number of dimensions
-	 * @param expected the expected number of dimensions
-	 * @throws DiminsionMismatchException If the vector does not have the expected dimensionality
+	 * Set the z component of this vector
+	 * @param z the new z component of this vector
 	 */
-	public void checkDimensions(int expected)
+	public void setZ(float z)
 	{
-		if (this.getDimensions() != expected)
-			throw new DimensionMismatchException();
+		this.z = z;
 	}
 	
-	/**
-	 * Get the magnitude of this vector. Note that {@link Vector#getMagnitudeSquared()}
-	 * is less expensive and works fine for comparisons.
-	 * @return The magnitude of this vector
-	 */
-	public double getMagnitude()
-	{
-		return Math.sqrt(getMagnitudeSquared());
-	}
 	
-	/**
-	 * Get the square of the magnitude of this vector.
-	 * @return the square of the magnitude of this vector
-	 */
-	public double getMagnitudeSquared()
-	{
-		double accumulator = 0;
-		for (double component : components)
-		{
-			accumulator += component * component;
-		}
-		return accumulator;
-	}
-	
-	/**
-	 * Compute the difference of two vectors.
-	 * @param negative The vector to subtract from this vector.
-	 * @return A new vector instance containing the result of the difference computation.
-	 * @throws DimensionMismatchException If the two vectors are not the same size
-	 */
-	public Vector difference(Vector negative) throws DimensionMismatchException
-	{
-		Vector result = new Vector(getDimensions());
-		return difference(negative, result);
-	}
-	
-	/**
-	 * Compute the difference of two vectors. This method does NOT instantiate a new
-	 * Vector.
-	 * @param negative The vector to subtract from this vector.
-	 * @param result A vector to store the result into.
-	 * @return A pointer to the <code>result</code> vector
-	 * @throws DimensionMismatchException If the three vectors are not the same size
-	 */
-	public Vector difference(Vector negative, Vector result) throws DimensionMismatchException
-	{
-		checkDimensions(negative);
-		checkDimensions(result);
-		for (int i = 0; i < getDimensions(); i++)
-		{
-			result.components[i] = this.components[i] - negative.components[i];
-		}
-		return result;
-	}
-	
-	/**
-	 * Get the square of the distance between two vectors
-	 * @param other The other vector
-	 * @return the square of the distance between two vectors
-	 * @throws DimensionMismatchException If the two vectors are not the same size
-	 */
-	public double getDistanceSquared(Vector other) throws DimensionMismatchException
-	{
-		Vector temp = new Vector(getDimensions());
-		return getDistanceSquared(other, temp);
-	}
-	
-	/**
-	 * Get the square of the distance between two vectors.
-	 * This method is more efficient than not providing a temporary vector.
-	 * @param other The other vector
-	 * @param temp A temporary vector used to compute the difference between the two vectors.
-	 * @return the square of the distance between two vectors
-	 * @throws DimensionMismatchException If the three vectors are not the same size
-	 */
-	public double getDistanceSquared(Vector other, Vector temp) throws DimensionMismatchException
-	{
-		difference(other, temp); // result now stored in temp
-		return temp.getMagnitudeSquared();
-	}
-	
-	/**
-	 * Get the distance between two vectors
-	 * @param other The other vector
-	 * @return the distance between two vectors
-	 * @throws DimensionMismatchException If the two vectors are not the same size
-	 */
-	public double getDistance(Vector other) throws DimensionMismatchException
-	{
-		Vector temp = new Vector(getDimensions());
-		return getDistance(other, temp);
-	}
-	
-	/**
-	 * Get the distance between two vectors.
-	 * This method is more efficient than not providing a temporary vector.
-	 * @param other The other vector
-	 * @param temp A temporary vector used to compute the difference between the two vectors.
-	 * @return the distance between two vectors
-	 * @throws DimensionMismatchException If the three vectors are not the same size
-	 */
-	public double getDistance(Vector other, Vector temp) throws DimensionMismatchException
-	{
-		difference(other, temp); // result now stored in temp
-		return temp.getMagnitude();
-	}
-	
-	@Override
-	public String toString()
-	{
-		StringBuilder sb = new StringBuilder();
-		sb.append("<");
-		for (int i = 0; i < components.length; i++)
-		{
-			if (i != 0) sb.append(", ");
-			sb.append(String.format("%.2f", components[i]));
-		}
-		sb.append(">");
-		
-		return sb.toString();
-	}
 }

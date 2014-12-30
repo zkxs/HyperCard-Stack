@@ -3,7 +3,6 @@ package common.gameelements;
 import java.util.Hashtable;
 
 import common.Vector;
-import common.VectorNew;
 
 /**
  * Describes a location at which there are views
@@ -18,7 +17,7 @@ public class Location
 	
 	/** This view's unique identifier */
 	private String identifier;
-	private VectorNew position;
+	private Vector position;
 	private Hashtable<String, View> views; //TODO: add functionality
 	
 	/**
@@ -26,10 +25,10 @@ public class Location
 	 * @param identifier A unique identifier for this location
 	 * @param position the position of this Location (will be deep copied)
 	 */
-	public Location(String identifier, VectorNew position)
+	public Location(String identifier, Vector position)
 	{
 		this.identifier = identifier;
-		position = new VectorNew();
+		position = new Vector();
 		setPosition(position);
 	}
 
@@ -62,7 +61,7 @@ public class Location
 	public Location(String identifier, float x, float y, float z)
 	{
 		this.identifier = identifier;
-		position = new VectorNew();
+		position = new Vector();
 		setPosition(x, y, z);
 	}
 	
@@ -70,7 +69,7 @@ public class Location
 	 * Set the position of this vector to that of the given vector
 	 * @param position the vector to extract the position from
 	 */
-	public void setPosition(VectorNew position)
+	public void setPosition(Vector position)
 	{
 		position.set(position);
 	}
@@ -94,7 +93,7 @@ public class Location
 	 * Get this locations's position
 	 * @return this locations's position
 	 */
-	public VectorNew getPosition()
+	public Vector getPosition()
 	{
 		return position;
 	}

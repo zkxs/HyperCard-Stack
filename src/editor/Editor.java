@@ -95,14 +95,14 @@ public class Editor {
 	}
 	
 	public void setX(int x){
-		selectedLocation.getPosition().getComponents()[0] = x;
+		selectedLocation.getPosition().setX(x);
 	}
 	
 	public void setY(int y){
-		selectedLocation.getPosition().getComponents()[1] = y;
+		selectedLocation.getPosition().setY(y);
 	}
 	
 	public void setZ(int z){
-		selectedLocation.getPosition().getComponents()[2] = z;
+		selectedLocation.getPosition().setZ(z);
 	}
 }

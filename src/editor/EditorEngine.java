@@ -217,9 +217,9 @@ public class EditorEngine extends JFrame implements GLEventListener, MouseListen
 	public void drawLocation(Location loc){
 		float radius = 5f;
 		float diag = 3.5f;
-		double x = loc.getPosition().getComponents()[0];
-		double y = loc.getPosition().getComponents()[1];
-		double z = loc.getPosition().getComponents()[2];
+		double x = loc.getPosition().getX();
+		double y = loc.getPosition().getY();
+		double z = loc.getPosition().getZ();
 		String id = loc.getIdentifier();
 		gl.glLoadName(id.hashCode()); // for picking
 		gl.glBegin(GL2.GL_LINE_LOOP);
