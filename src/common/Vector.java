@@ -5,7 +5,9 @@ import common.DimensionMismatchException;
 /**
  * A generic vector with a variable number of dimensions. Can be used to represent points.
  * @author Michael Ripley (<a href="mailto:michael-ripley@utulsa.edu">michael-ripley@utulsa.edu</a>) Oct 5, 2014
+ * @Deprecated This class was overkill for this project, we're changing to a simpler 3 dimension specific solution
  */
+@Deprecated
 public class Vector
 {	
 	/** The components of the vector */
