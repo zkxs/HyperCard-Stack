@@ -139,7 +139,6 @@ public class EditorEngine extends JFrame implements GLEventListener, MouseListen
 			gl.glPopMatrix();
 			gl.glFlush();
 			hits = gl.glRenderMode(GL2.GL_RENDER);
-			System.out.println(hits);
 			processHits(hits, selectBuffer);
 			picking = false;
 		}
@@ -200,11 +199,24 @@ public class EditorEngine extends JFrame implements GLEventListener, MouseListen
 
 			for (int j=0;j<names;j++){
 				//buffer.get(offset) is the id of the hit object
-				System.out.println("picked: " + buffer.get(offset));
 				editor.selectLocation(buffer.get(offset));
 				offset++;
 			}
 		}
+	}
+	
+	public void drawAxes(){
+		gl.glLoadName(-1);
+		gl.glBegin(GL2.GL_LINES);
+		gl.glVertex3f(-10, 0, 0);
+		gl.glVertex3f(10, 0, 0);
+		gl.glEnd();
+		
+		gl.glLoadName(-1);
+		gl.glBegin(GL2.GL_LINES);
+		gl.glVertex3f(0, -10, 0);
+		gl.glVertex3f(0, 10, 0);
+		gl.glEnd();
 	}
 	
 	public void setColor(float red, float green, float blue)
@@ -239,7 +251,10 @@ public class EditorEngine extends JFrame implements GLEventListener, MouseListen
 		double z = loc.getPosition().getZ();
 		String id = loc.getIdentifier();
 		gl.glLoadName(editor.locationIntIds.get(id)); // for picking
-		gl.glBegin(GL2.GL_LINE_LOOP);
+		if(picking)
+			gl.glBegin(GL2.GL_TRIANGLE_FAN);
+		else
+			gl.glBegin(GL2.GL_LINE_LOOP);
 		{
 			gl.glVertex3d(x, y + radius, z);
 			gl.glVertex3d(x + diag, y + diag, z);
@@ -294,6 +309,10 @@ public class EditorEngine extends JFrame implements GLEventListener, MouseListen
 			xOffset = (e.getX() - mouseX) + oldXOffset;
 			yOffset = (e.getY() - mouseY) + oldYOffset;
 		}
+		else if(e.getModifiersEx() == MouseEvent.BUTTON1_DOWN_MASK && editor.getMapSelection() == Editor.MapSelection.LOCATION){
+			editor.setX(e.getX() - mouseX);
+			editor.setY(-(e.getY() - mouseY));
+		}
 	}
 	
 	@Override
@@ -323,6 +342,10 @@ public class EditorEngine extends JFrame implements GLEventListener, MouseListen
 		}
 		else if(e.getButton() == MouseEvent.BUTTON2){
 
+		}
+		else if(e.getButton() == MouseEvent.BUTTON1 && editor.getMapSelection() == Editor.MapSelection.LOCATION){
+			editor.setX(e.getX() - mouseX);
+			editor.setY(-(e.getY() - mouseY));
 		}
 	}
 
