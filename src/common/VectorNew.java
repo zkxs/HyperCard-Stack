@@ -28,7 +28,7 @@ public class VectorNew
 	 */
 	public VectorNew(VectorNew v)
 	{
-		set( v.getX(), v.getY(), v.getZ() );
+		set(v);
 	}
 
 	/**
@@ -42,6 +42,15 @@ public class VectorNew
 		setX(x);
 		setY(y);
 		setZ(z);
+	}
+	
+	/**
+	 * Set the components of this vector using the components of a given vector
+	 * @param v The vector to extract new components from.
+	 */
+	public void set(VectorNew v)
+	{
+		set( v.getX(), v.getY(), v.getZ() );
 	}
 	
 	/**

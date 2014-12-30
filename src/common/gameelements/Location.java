@@ -3,6 +3,7 @@ package common.gameelements;
 import java.util.Hashtable;
 
 import common.Vector;
+import common.VectorNew;
 
 /**
  * Describes a location at which there are views
@@ -17,7 +18,7 @@ public class Location
 	
 	/** This view's unique identifier */
 	private String identifier;
-	private Vector position;
+	private VectorNew position;
 	private Hashtable<String, View> views; //TODO: add functionality
 	
 	/**
@@ -25,10 +26,10 @@ public class Location
 	 * @param identifier A unique identifier for this location
 	 * @param position the position of this Location (will be deep copied)
 	 */
-	public Location(String identifier, Vector position)
+	public Location(String identifier, VectorNew position)
 	{
 		this.identifier = identifier;
-		position = new Vector(3);
+		position = new VectorNew();
 		setPosition(position);
 	}
 
@@ -52,40 +53,48 @@ public class Location
 	}
 	
 	/**
-	 * Create a new vector at the given location
+	 * Create a new vector at <x, y, z>
 	 * @param identifier A unique identifier for this location
-	 * @param positionComponents a length 3 array of position components (will be shallow copied)
+	 * @param x The x component
+	 * @param y The y component
+	 * @param z The z component
 	 */
-	public Location(String identifier, double... positionComponents)
+	public Location(String identifier, float x, float y, float z)
 	{
 		this.identifier = identifier;
-		position = new Vector(3);
-		setPosition(positionComponents);
+		position = new VectorNew();
+		setPosition(x, y, z);
 	}
 	
 	/**
-	 * Set the position of this vector to that of the given vector (deep copy)
+	 * Set the position of this vector to that of the given vector
 	 * @param position the vector to extract the position from
 	 */
-	public void setPosition(Vector position)
+	public void setPosition(VectorNew position)
 	{
-		position.setComponents(position);
+		position.set(position);
 	}
 	
 	/**
 	 * Set this location's components to the given components (shallow copy)
 	 * @param positionComponents the components to set the position to
 	 */
-	public void setPosition(double... positionComponents)
+	/**
+	 * Set the components of this vector to <x, y, z>
+	 * @param x The new x component
+	 * @param y The new y component
+	 * @param z The new z component
+	 */
+	public void setPosition(float x, float y, float z)
 	{
-		position.setComponents(positionComponents);
+		position.set(x, y, z);
 	}
 	
 	/**
 	 * Get this locations's position
 	 * @return this locations's position
 	 */
-	public Vector getPosition()
+	public VectorNew getPosition()
 	{
 		return position;
 	}
