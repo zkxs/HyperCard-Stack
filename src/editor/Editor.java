@@ -81,6 +81,13 @@ public class Editor {
 	public void selectLocation(int id){
 		String sid = locationStringIds.get(id);
 		selectedLocation = map.getLocation(sid);
+		toolsPalette.setLocationSelected();
+	}
+	
+	public void selectNothing(){
+		selection = MapSelection.NONE;
+		selectedLocation = null;
+		selectedView = null;
 	}
 	
 	public void createLocation(){

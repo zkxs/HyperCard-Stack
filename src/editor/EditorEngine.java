@@ -133,21 +133,28 @@ public class EditorEngine extends JFrame implements GLEventListener, MouseListen
 			gl.glMatrixMode(GL2.GL_PROJECTION);
 			gl.glPushMatrix();
 			gl.glLoadIdentity();
-			glu.gluPickMatrix(getWidth() / 2,  getHeight() / 2 - 40, 10.0d, 10.0d, viewPort, 0);
+			glu.gluPickMatrix(mouseX,  mouseY, 10.0d, 10.0d, viewPort, 0);
 			displayScene(gl);
 			gl.glMatrixMode(GL2.GL_PROJECTION);
 			gl.glPopMatrix();
 			gl.glFlush();
 			hits = gl.glRenderMode(GL2.GL_RENDER);
+			System.out.println(hits);
 			processHits(hits, selectBuffer);
 			picking = false;
 		}
 	}
 	
 	public void displayScene(GL2 gl){
-		gl.glMatrixMode(GL2.GL_PROJECTION);
-		gl.glLoadIdentity();
-		gl.glOrtho(0, GL_WIDTH / zoom, 0, WINDOW_HEIGHT / zoom, 0, 1);
+		if(!picking){
+			gl.glMatrixMode(GL2.GL_PROJECTION);
+			gl.glLoadIdentity();
+			gl.glOrtho(0, GL_WIDTH / zoom, 0, WINDOW_HEIGHT / zoom, 0, 1);
+		}
+		else
+			gl.glOrtho(0, GL_WIDTH / zoom, WINDOW_HEIGHT / zoom, 0, 0, 1);
+
+		
 		gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT); // clear the framebuffer
 		gl.glMatrixMode(GL2.GL_MODELVIEW);
 		gl.glLoadIdentity();
@@ -175,6 +182,10 @@ public class EditorEngine extends JFrame implements GLEventListener, MouseListen
 	}
 	
 	public void processHits(int hits, IntBuffer buffer){
+		if(hits == 0){
+			editor.selectNothing();
+			return;
+		}
 		int offset = 0;
 		int names;
 		long z1, z2;
@@ -239,9 +250,11 @@ public class EditorEngine extends JFrame implements GLEventListener, MouseListen
 			gl.glVertex3d(x - radius, y, z);
 			gl.glVertex3d(x - diag, y + diag, z);
 		}
-		gl.glEnd();
-		
-		gl.glBegin(GL2.GL_POINTS);
+		if(!picking){
+			gl.glEnd();
+
+			gl.glBegin(GL2.GL_POINTS);
+		}
 		{
 			gl.glVertex3d(x, y, z);
 		}
@@ -287,6 +300,8 @@ public class EditorEngine extends JFrame implements GLEventListener, MouseListen
 	public void mousePressed(MouseEvent e) {
 		if(e.getButton() == MouseEvent.BUTTON1){
 			picking = true;
+			mouseX = e.getX();
+			mouseY = e.getY();
 		}
 		else if(e.getButton() == MouseEvent.BUTTON3){
 			mouseX = e.getX();
