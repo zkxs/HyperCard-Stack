@@ -22,13 +22,13 @@ public class Editor {
 	public Hashtable<Integer, String> locationStringIds;
 	private int locationCounter = 0;
 	
-	private enum MapSelection {
+	public enum MapSelection {
 		NONE,
 		LOCATION,
 		VIEW
 	}
 	
-	private enum EditMode {
+	public enum EditMode {
 		EDIT_MAP, //editing locations and views
 		EDIT_VIEW //editing navAreas and manipulators
 	}
@@ -68,9 +68,18 @@ public class Editor {
 	}
 	
 	public void draw(EditorEngine e, GL2 gl){
+		e.setColor(1, 0, 0);
+		e.drawAxes();
+		e.setColor(1, 1, 1);
 		Iterator<Location> locIt = map.getLocationIterator();
+		
 		while(locIt.hasNext()){
-			e.drawLocation(locIt.next());
+			Location nextLocation = locIt.next();
+			if(selectedLocation != null && nextLocation.getIdentifier() == selectedLocation.getIdentifier())
+				e.setColor(0, 1, 0);
+			else
+				e.setColor(1, 1, 1);
+			e.drawLocation(nextLocation);
 		}
 	}
 	
@@ -79,9 +88,12 @@ public class Editor {
 	}
 	
 	public void selectLocation(int id){
-		String sid = locationStringIds.get(id);
-		selectedLocation = map.getLocation(sid);
-		toolsPalette.setLocationSelected();
+		if(id >= 0){
+			String sid = locationStringIds.get(id);
+			selectedLocation = map.getLocation(sid);
+			selection = MapSelection.LOCATION;
+			toolsPalette.setLocationSelected();
+		}
 	}
 	
 	public void selectNothing(){
@@ -132,5 +144,13 @@ public class Editor {
 	
 	public void setZ(int z){
 		selectedLocation.getPosition().setZ(z);
+	}
+	
+	public MapSelection getMapSelection(){
+		return selection;
+	}
+	
+	public EditMode getEditMode(){
+		return editMode;
 	}
 }
