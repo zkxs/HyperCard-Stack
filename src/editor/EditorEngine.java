@@ -305,8 +305,8 @@ public class EditorEngine extends JFrame implements GLEventListener, MouseListen
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
-		int dx = e.getX() - oldMouseX; // change in mouse position
-		int dy = e.getY() - oldMouseY;
+		float dx = e.getX() - oldMouseX; // change in mouse position
+		float dy = e.getY() - oldMouseY;
 		if(e.getModifiersEx() == MouseEvent.BUTTON3_DOWN_MASK){ // panning
 			xOffset = (e.getX() - mouseX) + oldXOffset;
 			yOffset = (e.getY() - mouseY) + oldYOffset;

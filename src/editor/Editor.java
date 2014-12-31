@@ -134,27 +134,27 @@ public class Editor {
 		
 	}
 	
-	public int getX(){
-		return (int) selectedLocation.getPosition().getX();
+	public float getX(){
+		return selectedLocation.getPosition().getX();
 	}
 	
-	public int getY(){
-		return (int) selectedLocation.getPosition().getY();
+	public float getY(){
+		return selectedLocation.getPosition().getY();
 	}
 	
-	public int getZ(){
-		return (int) selectedLocation.getPosition().getZ();
+	public float getZ(){
+		return selectedLocation.getPosition().getZ();
 	}
 	
-	public void setX(int x){
+	public void setX(float x){
 		selectedLocation.getPosition().setX(x);
 	}
 	
-	public void setY(int y){
+	public void setY(float y){
 		selectedLocation.getPosition().setY(y);
 	}
 	
-	public void setZ(int z){
+	public void setZ(float z){
 		selectedLocation.getPosition().setZ(z);
 	}
 	
