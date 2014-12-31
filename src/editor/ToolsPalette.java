@@ -1,5 +1,6 @@
 package editor;
 
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -9,12 +10,16 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+
 
 @SuppressWarnings("serial")
 public class ToolsPalette extends JPanel implements ActionListener{
 	private JButton createView, deleteView, editView;
 	private JButton createLocation, deleteLocation;
 	private JButton setX, setY, setZ;
+	private JTextField textX, textY, textZ;
 	private ArrayList<JButton> buttons;
 	public static final int PALETTE_WIDTH = EditorEngine.WINDOW_WIDTH - EditorEngine.GL_WIDTH;
 	private Editor editor;
@@ -51,6 +56,10 @@ public class ToolsPalette extends JPanel implements ActionListener{
 		for(JButton b : buttons){
 			b.addActionListener(this);
 		}
+		
+		textX = new JTextField();
+		textY = new JTextField();
+		textZ = new JTextField();
 	}
 	
 	/**
@@ -70,6 +79,9 @@ public class ToolsPalette extends JPanel implements ActionListener{
 	 * location selected, show buttons:
 	 * 	-create view
 	 * 	-delete location
+	 * 	-set x
+	 * 	-set y
+	 * 	-set z
 	 */
 	public void setLocationSelected(){
 		removeAll();
@@ -78,6 +90,18 @@ public class ToolsPalette extends JPanel implements ActionListener{
 		add(setX);
 		add(setY);
 		add(setZ);
+		textX.setText("X: " + editor.getX());
+		textX.setMaximumSize(new Dimension(PALETTE_WIDTH - 20, 20));
+		add(textX);
+		
+		textY.setText("Y: " + editor.getY());
+		textY.setMaximumSize(new Dimension(PALETTE_WIDTH - 20, 20));
+		add(textY);
+		
+		textZ.setText("Z: " + editor.getZ());
+		textZ.setMaximumSize(new Dimension(PALETTE_WIDTH - 20, 20));
+		add(textZ);
+		
 		
 		revalidate();
 		repaint();
