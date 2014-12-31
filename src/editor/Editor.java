@@ -134,6 +134,18 @@ public class Editor {
 		
 	}
 	
+	public int getX(){
+		return (int) selectedLocation.getPosition().getX();
+	}
+	
+	public int getY(){
+		return (int) selectedLocation.getPosition().getY();
+	}
+	
+	public int getZ(){
+		return (int) selectedLocation.getPosition().getZ();
+	}
+	
 	public void setX(int x){
 		selectedLocation.getPosition().setX(x);
 	}

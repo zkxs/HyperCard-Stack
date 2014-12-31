@@ -45,7 +45,7 @@ public class EditorEngine extends JFrame implements GLEventListener, MouseListen
 	private boolean picking;
 	
 	//used for panning the camera
-	int mouseX, mouseY;
+	int mouseX, mouseY, oldMouseX, oldMouseY;
     int oldXOffset, oldYOffset;
     int xOffset, yOffset;
     
@@ -305,14 +305,18 @@ public class EditorEngine extends JFrame implements GLEventListener, MouseListen
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
-		if(e.getModifiersEx() == MouseEvent.BUTTON3_DOWN_MASK){
+		int dx = e.getX() - oldMouseX; // change in mouse position
+		int dy = e.getY() - oldMouseY;
+		if(e.getModifiersEx() == MouseEvent.BUTTON3_DOWN_MASK){ // panning
 			xOffset = (e.getX() - mouseX) + oldXOffset;
 			yOffset = (e.getY() - mouseY) + oldYOffset;
 		}
-		else if(e.getModifiersEx() == MouseEvent.BUTTON1_DOWN_MASK && editor.getMapSelection() == Editor.MapSelection.LOCATION){
-			editor.setX(e.getX() - mouseX);
-			editor.setY(-(e.getY() - mouseY));
+		else if(e.getModifiersEx() == MouseEvent.BUTTON1_DOWN_MASK && editor.getMapSelection() == Editor.MapSelection.LOCATION){ // dragging location
+			editor.setX(editor.getX() + dx / zoom);
+			editor.setY(editor.getY() - dy / zoom);
 		}
+		oldMouseX = e.getX();
+		oldMouseY = e.getY();
 	}
 	
 	@Override
@@ -321,6 +325,8 @@ public class EditorEngine extends JFrame implements GLEventListener, MouseListen
 			picking = true;
 			mouseX = e.getX();
 			mouseY = e.getY();
+			oldMouseX = e.getX(); //for calculating dx when dragging location
+			oldMouseY = e.getY();
 		}
 		else if(e.getButton() == MouseEvent.BUTTON3){
 			mouseX = e.getX();
@@ -336,16 +342,9 @@ public class EditorEngine extends JFrame implements GLEventListener, MouseListen
 	
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		if(e.getButton() == MouseEvent.BUTTON3){
+		if(e.getButton() == MouseEvent.BUTTON3){ // save pan when release right mouse
 			oldXOffset = xOffset;
 			oldYOffset = yOffset;
-		}
-		else if(e.getButton() == MouseEvent.BUTTON2){
-
-		}
-		else if(e.getButton() == MouseEvent.BUTTON1 && editor.getMapSelection() == Editor.MapSelection.LOCATION){
-			editor.setX(e.getX() - mouseX);
-			editor.setY(-(e.getY() - mouseY));
 		}
 	}
 
