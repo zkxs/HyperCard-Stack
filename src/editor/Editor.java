@@ -22,6 +22,10 @@ public class Editor {
 	public Hashtable<Integer, String> locationStringIds;
 	private int locationCounter = 0;
 	
+	public Hashtable<String, Integer> viewIntIds;
+	public Hashtable<Integer, String> viewStringIds;
+	private int viewCounter = 0;
+	
 	public enum MapSelection {
 		NONE,
 		LOCATION,
@@ -113,7 +117,12 @@ public class Editor {
 	}
 	
 	public void createView(){
-		
+		selectedView = new View();
+		viewIntIds.put(selectedView.getIdentifier(), viewCounter + locationCounter);
+		viewStringIds.put(locationCounter + viewCounter, selectedView.getIdentifier());
+		viewCounter++;
+		//TODO selectedLocation.addView(selectedView);
+		selection = MapSelection.VIEW;
 	}
 	
 	public void deleteLocation(){

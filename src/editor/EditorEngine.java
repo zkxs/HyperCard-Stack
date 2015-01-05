@@ -23,6 +23,7 @@ import javax.swing.JSplitPane;
 import com.jogamp.opengl.util.FPSAnimator;
 import com.jogamp.opengl.util.GLBuffers;
 import common.gameelements.Location;
+import common.gameelements.View;
 
 
 @SuppressWarnings("serial")
@@ -239,9 +240,7 @@ public class EditorEngine extends JFrame implements GLEventListener, MouseListen
 	
 	/**
 	 * draw a circle representing a location at the coordinates specified
-	 * @param x x coordinate of the location
-	 * @param y y coordinate of the location
-	 * @param z z coordinate of the location
+	 * @param loc the location to draw
 	 */
 	public void drawLocation(Location loc){
 		float radius = 5f;
@@ -270,37 +269,38 @@ public class EditorEngine extends JFrame implements GLEventListener, MouseListen
 
 			gl.glBegin(GL2.GL_POINTS);
 		}
-		{
-			gl.glVertex3d(x, y, z);
-		}
+		
+		gl.glVertex3d(x, y, z);
+		
 		gl.glEnd();
 	}
 	
 	/**
 	 * draw a line representing a view at a location pointing in a direction
-	 * @param locationx x coordinate of the view's location
-	 * @param locationy y coordinate of the view's location
-	 * @param locationz z coordinate of the view's location
-	 * @param theta angle theta of the view in degrees
-	 * @param phi angle phi of the view in degrees
+	 * @param loc the view's location
+	 * @param vw the view to be draw
 	 */
-	public void drawView(float locationx, float locationy, float locationz, float theta, float phi){
+	public void drawView(Location loc, View vw){
 		float radius = 10f;
 		float half_width = 8f;
-		
+		double locationx = loc.getPosition().getX();
+		double locationy = loc.getPosition().getY();
+		double locationz = loc.getPosition().getZ();
+		double theta = vw.getOrientation().getTheta();
+		double phi = vw.getOrientation().getPhi();
 		//proof that Will knows OpenGL
 		//gl.glLoadName(unique_view_id); //for picking
-		gl.glTranslatef(locationx, locationy, locationz);
-		gl.glRotatef(-theta, 0, 0, 1);
+		gl.glTranslated(locationx, locationy, locationz);
+		gl.glRotated(-theta, 0, 0, 1);
 		gl.glBegin(GL2.GL_LINE_STRIP);
 		{
-			gl.glVertex3f(-half_width, radius, locationz);
-			gl.glVertex3f(0, radius, locationz);
-			gl.glVertex3f(half_width, radius, locationz);
+			gl.glVertex3d(-half_width, radius, locationz);
+			gl.glVertex3d(0, radius, locationz);
+			gl.glVertex3d(half_width, radius, locationz);
 		}
 		gl.glEnd();
-		gl.glRotatef(theta, 0, 0, 1);
-		gl.glTranslatef(-locationx, -locationy, -locationz);
+		gl.glRotated(theta, 0, 0, 1);
+		gl.glTranslated(-locationx, -locationy, -locationz);
 	}
 
 	@Override
