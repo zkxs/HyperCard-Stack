@@ -3,6 +3,10 @@ package common.gameelements;
 import java.util.Hashtable;
 
 import common.Vector;
+import common.gameelements.exceptions.DuplicateLocationException;
+import common.gameelements.exceptions.DuplicateViewException;
+import common.gameelements.exceptions.LocationNotFoundException;
+import common.gameelements.exceptions.ViewNotFoundException;
 
 /**
  * Describes a location at which there are views
@@ -114,5 +118,56 @@ public class Location
 	public void setIdentifier(String identifier)
 	{
 		this.identifier = identifier;
+	}
+	
+	/**
+	 * Look up a View from its unique ID
+	 * @param id The unique view ID to look up
+	 * @return The found View object
+	 * @throws ViewNotFoundException if the view id was not valid
+	 */
+	public View getView(String id)
+	{
+		View toReturn = views.get(id);
+		if (toReturn == null)
+			throw new ViewNotFoundException(id);
+		else
+			return toReturn;
+	}
+	
+	/**
+	 * Add a new View to this Location
+	 * @param view The view to add
+	 * @throws DuplicateViewException if a view with the same unique ID already exists
+	 */
+	public void addLocation(View view)
+	{
+		boolean present = views.contains(view.getIdentifier());
+		if (present)
+		{
+			// then a view with this ID already exists!
+			throw new DuplicateViewException(view.getIdentifier());
+		}
+		else
+		{
+			// we must add the new view
+			views.put(view.getIdentifier(), view); // should always return null
+		}
+	}
+	
+	/**
+	 * Remove a view from this map. This may cause map errors if links to this view
+	 * exist elsewhere.
+	 * @param id The unique ID of the view to remove
+	 * @throws ViewNotFoundException if the view id was not valid
+	 */
+	public void removeView(String id)
+	{
+		View removed = views.remove(id);
+		if (removed == null)
+		{
+			// nothing was removed!
+			throw new ViewNotFoundException(id);
+		}
 	}
 }
