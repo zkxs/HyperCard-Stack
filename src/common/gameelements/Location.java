@@ -3,10 +3,7 @@ package common.gameelements;
 import java.util.Hashtable;
 
 import common.Vector;
-import common.gameelements.exceptions.DuplicateLocationException;
-import common.gameelements.exceptions.DuplicateViewException;
-import common.gameelements.exceptions.LocationNotFoundException;
-import common.gameelements.exceptions.ViewNotFoundException;
+import common.gameelements.exceptions.*;
 
 /**
  * Describes a location at which there are views
