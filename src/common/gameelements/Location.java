@@ -140,7 +140,7 @@ public class Location
 	 * @param view The view to add
 	 * @throws DuplicateViewException if a view with the same unique ID already exists
 	 */
-	public void addLocation(View view)
+	public void addView(View view)
 	{
 		boolean present = views.contains(view.getIdentifier());
 		if (present)
