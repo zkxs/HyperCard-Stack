@@ -29,9 +29,9 @@ public class Location
 	 */
 	public Location(String identifier, Vector position)
 	{
+		views = new Hashtable<String, View>();
 		this.identifier = identifier;
-		position = new Vector();
-		setPosition(position);
+		position = new Vector(position);
 	}
 
 	/**
@@ -62,9 +62,9 @@ public class Location
 	 */
 	public Location(String identifier, float x, float y, float z)
 	{
+		views = new Hashtable<String, View>();
 		this.identifier = identifier;
-		position = new Vector();
-		setPosition(x, y, z);
+		position = new Vector(x, y, z);
 	}
 	
 	/**
