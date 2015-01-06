@@ -1,6 +1,7 @@
 package common.gameelements;
 
 import java.util.Hashtable;
+import java.util.Iterator;
 
 import common.Vector;
 import common.gameelements.exceptions.*;
@@ -166,5 +167,16 @@ public class Location
 			// nothing was removed!
 			throw new ViewNotFoundException(id);
 		}
+	}
+	
+	/**
+	 * Get an iterator over all views in this Location. The iterator supports element
+	 * removal via the .remove() method. The .add() method is NOT supported. If Location.views
+	 * is modified during iteration, the results of the iteration are undefined.
+	 * @return an Iterator over all Views in the Location.
+	 */
+	public Iterator<View> getViewIterator()
+	{
+		return views.values().iterator();
 	}
 }
