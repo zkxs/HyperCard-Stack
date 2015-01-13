@@ -1,6 +1,7 @@
 package editor;
 
 import javax.media.opengl.GL2;
+import javax.swing.JOptionPane;
 
 import java.util.Hashtable;
 import java.util.Iterator;
@@ -25,6 +26,11 @@ public class Editor {
 	public Hashtable<Integer, String> viewStringIds;
 	private int viewCounter = 0; // do not decrement, used to create unique ids
 	
+	private MapSelection selection;
+	private EditMode editMode;
+	private boolean aimingView;
+	private boolean aimingViewFrom;
+	
 	public enum MapSelection {
 		NONE,
 		LOCATION,
@@ -36,8 +42,6 @@ public class Editor {
 		EDIT_VIEW //editing navAreas and manipulators
 	}
 	
-	private MapSelection selection;
-	private EditMode editMode;
 	
 	public Editor(){
 	}
@@ -104,6 +108,42 @@ public class Editor {
 		
 	}
 	
+	public void pickResult(int id){
+		if(aimingView){
+			
+			
+			if(locationStringIds.get(id) != null){ // id does belong to a location
+				String sid = locationStringIds.get(id);
+				Location destination = map.getLocation(sid);
+				
+				double x = selectedLocation.getPosition().getX();
+				double y = selectedLocation.getPosition().getY();
+				
+				double x2 = destination.getPosition().getX();
+				double y2 = destination.getPosition().getY();
+				
+				double dx = x2 - x;
+				double dy = y2 - y;
+				
+				double angle = -Math.atan2(dy, dx) * 180 / Math.PI + 90;
+				System.out.println(angle);
+				
+				selectedView.getOrientation().setTheta((float)angle);
+			}
+			else{
+//				JOptionPane.showMessageDialog(null, "Not a valid location");
+			}
+			
+			aimingView = false;
+		}
+		else if(aimingViewFrom){
+			aimingViewFrom = false;
+		}
+		else{
+			selectLocationOrView(id);
+		}
+	}
+	
 	public void selectLocationOrView(int id){
 		if(id >= 0){
 			String sid;
@@ -167,6 +207,14 @@ public class Editor {
 	
 	public void editView(){
 		
+	}
+	
+	public void aimViewAtLocation(){
+		aimingView = true;
+	}
+	
+	public void aimViewFromLocation(){
+		aimingViewFrom = true;
 	}
 	
 	public float getX(){

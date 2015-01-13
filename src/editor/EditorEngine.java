@@ -32,7 +32,7 @@ public class EditorEngine extends JFrame implements GLEventListener, MouseListen
 	public static final int WINDOW_HEIGHT = 720;
 	public static final String WINDOW_TITLE = "HyperCard Stack Editor";
 	
-	public static final int GL_WIDTH = 1100;
+	public static final int GL_WIDTH = 1080;
 
 	private GLJPanel gljpanel;
 	private GLProfile glprofile;
@@ -200,7 +200,7 @@ public class EditorEngine extends JFrame implements GLEventListener, MouseListen
 
 			for (int j=0;j<names;j++){
 				//buffer.get(offset) is the id of the hit object
-				editor.selectLocationOrView(buffer.get(offset));
+				editor.pickResult(buffer.get(offset));
 				offset++;
 			}
 		}

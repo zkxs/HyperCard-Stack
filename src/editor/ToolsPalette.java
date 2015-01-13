@@ -17,6 +17,7 @@ import javax.swing.JTextField;
 public class ToolsPalette extends JPanel implements ActionListener{
 	private JButton createView, deleteView, editView;
 	private JButton createLocation, deleteLocation;
+	private JButton aimView, aimViewFrom;
 	private JButton setX, setY, setZ;
 	private JTextField textX, textY, textZ;
 	private ArrayList<JButton> buttons;
@@ -51,6 +52,11 @@ public class ToolsPalette extends JPanel implements ActionListener{
 		buttons.add(setY);
 		setZ = new JButton("Set Z");
 		buttons.add(setZ);
+		
+		aimView = new JButton("Aim at Location");
+		buttons.add(aimView);
+		aimViewFrom = new JButton("Aim from Location");
+		buttons.add(aimViewFrom);
 		
 		for(JButton b : buttons){
 			b.addActionListener(this);
@@ -115,6 +121,8 @@ public class ToolsPalette extends JPanel implements ActionListener{
 		removeAll();
 		add(deleteView);
 		add(editView);
+		add(aimView);
+		add(aimViewFrom);
 		
 		revalidate();
 		repaint();
@@ -146,6 +154,12 @@ public class ToolsPalette extends JPanel implements ActionListener{
 		}
 		else if(source == setZ){
 			editor.setZ(Integer.parseInt(JOptionPane.showInputDialog("Enter Z Coordinate")));
+		}
+		else if(source == aimView){
+			editor.aimViewAtLocation();
+		}
+		else if(source == aimViewFrom){
+			editor.aimViewFromLocation();
 		}
 	}
 }
