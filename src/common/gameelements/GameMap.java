@@ -13,13 +13,13 @@ public class GameMap
 {
 	private Hashtable<String, Location> locations;
 	private Hashtable<String, PuzzleController> puzzleControllers;
-	private Hashtable<String, View> allViews;
+	private Hashtable<String, View> views;
 	
 	public GameMap()
 	{
 		locations = new Hashtable<String, Location>();
 		puzzleControllers = new Hashtable<String, PuzzleController>();
-		allViews = new Hashtable<String, View>();
+		views = new Hashtable<String, View>();
 	}
 	
 	/**
@@ -83,6 +83,7 @@ public class GameMap
 			// nothing was removed!
 			throw new LocationNotFoundException(id);
 		}
+		removed.removeAllViews();
 	}
 	
 	/**
@@ -112,18 +113,66 @@ public class GameMap
 	}
 	
 	/**
-	 * Get the table of all views from all locations
-	 * @return a Hashtable of all views from all locations
+	 * Look up a View from its unique ID
+	 * @param id The unique view ID to look up
+	 * @return The found View object
+	 * @throws ViewNotFoundException if the view id was not valid
 	 */
-	public Hashtable<String, View> getAllViews(){
-		return allViews;
+	public View getView(String id)
+	{
+		View toReturn = views.get(id);
+		if (toReturn == null)
+			throw new ViewNotFoundException(id);
+		else
+			return toReturn;
 	}
 	
 	/**
-	 * Get an iterator for the allViews Hashtable
-	 * @return an iterator for the allViews Hashtable
+	 * Add a new View to this Map
+	 * @param view The view to add
+	 * @throws DuplicateViewException if a view with the same unique ID already exists
 	 */
-	public Iterator<View> getAllViewsIterator(){
-		return allViews.values().iterator();
+	void addView(View view)
+	{
+		boolean present = views.contains(view.getIdentifier());
+		if (present)
+		{
+			// then a view with this ID already exists!
+			throw new DuplicateViewException(view.getIdentifier());
+		}
+		else
+		{
+			// we must add the new view
+			views.put(view.getIdentifier(), view); // should always return null
+		}
+	}
+	
+	/**
+	 * Remove a view from this map. This may cause map errors if links to this view
+	 * exist elsewhere.
+	 * @param id The unique ID of the view to remove
+	 * @throws ViewNotFoundException if the view id was not valid
+	 * @return the view that was removed
+	 */
+	View removeView(String id)
+	{
+		View removed = views.remove(id);
+		if (removed == null)
+		{
+			// nothing was removed!
+			throw new ViewNotFoundException(id);
+		}
+		return removed;
+	}
+	
+	/**
+	 * Get an iterator over all views in this Map. The iterator supports element
+	 * removal via the .remove() method. The .add() method is NOT supported. If Map.views
+	 * is modified during iteration, the results of the iteration are undefined.
+	 * @return an Iterator over all Views in the Map.
+	 */
+	public Iterator<View> getViewIterator()
+	{
+		return views.values().iterator();
 	}
 }

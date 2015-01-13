@@ -4,7 +4,6 @@ import javax.media.opengl.GL2;
 
 import java.util.Hashtable;
 import java.util.Iterator;
-import java.util.Map;
 
 import common.gameelements.Location;
 import common.gameelements.View;
@@ -88,7 +87,7 @@ public class Editor {
 			e.drawLocation(nextLocation);			
 		}
 		
-		Iterator<View> viewIt = map.getAllViewsIterator();
+		Iterator<View> viewIt = map.getViewIterator();
 		
 		while(viewIt.hasNext()){
 			View nextView = viewIt.next();
@@ -117,7 +116,7 @@ public class Editor {
 			}
 			else if(viewStringIds.get(id) != null){ // id does belong to a view
 				sid = viewStringIds.get(id);
-				selectedView = map.getAllViews().get(sid);
+				selectedView = map.getView(sid);
 				selectedLocation = selectedView.getLocation();
 				selection = MapSelection.VIEW;
 				toolsPalette.setViewSelected();
@@ -161,7 +160,6 @@ public class Editor {
 	
 	public void deleteView(){
 		String id = selectedView.getIdentifier();
-		map.getAllViews().remove(selectedView);
 		selectedLocation.removeView(id);
 		selectedView = null;
 		selection = MapSelection.LOCATION;

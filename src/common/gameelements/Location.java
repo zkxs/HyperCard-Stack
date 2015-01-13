@@ -1,6 +1,6 @@
 package common.gameelements;
 
-import java.util.Hashtable;
+import java.util.HashSet;
 import java.util.Iterator;
 
 import common.Vector;
@@ -20,7 +20,7 @@ public class Location
 	/** This view's unique identifier */
 	private String identifier;
 	private Vector position;
-	private Hashtable<String, View> views;
+	private HashSet<View> views;
 	
 	private GameMap map; // reference back to game map to access allViews
 	
@@ -32,7 +32,7 @@ public class Location
 	 */
 	public Location(String identifier, Vector position, GameMap map)
 	{
-		views = new Hashtable<String, View>();
+		views = new HashSet<View>();
 		this.identifier = identifier;
 		this.map = map;
 		position = new Vector(position);
@@ -68,7 +68,7 @@ public class Location
 	 */
 	public Location(String identifier, float x, float y, float z, GameMap map)
 	{
-		views = new Hashtable<String, View>();
+		views = new HashSet<View>();
 		this.identifier = identifier;
 		this.map = map;
 		position = new Vector(x, y, z);
@@ -133,11 +133,7 @@ public class Location
 	 */
 	public View getView(String id)
 	{
-		View toReturn = views.get(id);
-		if (toReturn == null)
-			throw new ViewNotFoundException(id);
-		else
-			return toReturn;
+		return map.getView(id);
 	}
 	
 	/**
@@ -147,45 +143,44 @@ public class Location
 	 */
 	public void addView(View view)
 	{
-		boolean present = views.contains(view.getIdentifier());
-		if (present)
-		{
-			// then a view with this ID already exists!
-			throw new DuplicateViewException(view.getIdentifier());
-		}
-		else
-		{
-			// we must add the new view
-			views.put(view.getIdentifier(), view); // should always return null
-			map.getAllViews().put(view.getIdentifier(), view);
-		}
+		map.addView(view);
+		views.add(view);
 	}
 	
 	/**
-	 * Remove a view from this map. This may cause map errors if links to this view
+	 * Remove a view from this location. This may cause map errors if links to this view
 	 * exist elsewhere.
 	 * @param id The unique ID of the view to remove
 	 * @throws ViewNotFoundException if the view id was not valid
 	 */
 	public void removeView(String id)
 	{
-		View removed = views.remove(id);
-		View globalRemoved = map.getAllViews().remove(id);
-		if (removed == null || globalRemoved == null)
+		View removed = map.removeView(id);
+		views.remove(removed);
+	}
+	
+	/**
+	 * Remove all views from this location
+	 */
+	public void removeAllViews()
+	{
+		Iterator<View> iterator = getViewIterator();
+		while (iterator.hasNext())
 		{
-			// nothing was removed!
-			throw new ViewNotFoundException(id);
+			View view = iterator.next();
+			map.removeView(view.getIdentifier());
+			views.remove(view);
 		}
 	}
 	
 	/**
 	 * Get an iterator over all views in this Location. The iterator supports element
-	 * removal via the .remove() method. The .add() method is NOT supported. If Location.views
+	 * removal via the .remove() method. The .add() method is NOT supported. If Map.views
 	 * is modified during iteration, the results of the iteration are undefined.
 	 * @return an Iterator over all Views in the Location.
 	 */
 	public Iterator<View> getViewIterator()
 	{
-		return views.values().iterator();
+		return views.iterator();
 	}
 }
