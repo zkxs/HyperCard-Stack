@@ -200,7 +200,7 @@ public class EditorEngine extends JFrame implements GLEventListener, MouseListen
 
 			for (int j=0;j<names;j++){
 				//buffer.get(offset) is the id of the hit object
-				editor.selectLocation(buffer.get(offset));
+				editor.selectLocationOrView(buffer.get(offset));
 				offset++;
 			}
 		}
@@ -289,7 +289,8 @@ public class EditorEngine extends JFrame implements GLEventListener, MouseListen
 		double theta = vw.getOrientation().getTheta();
 		double phi = vw.getOrientation().getPhi();
 		//proof that Will knows OpenGL
-		//gl.glLoadName(unique_view_id); //for picking
+		String id = vw.getIdentifier();
+		gl.glLoadName(editor.viewIntIds.get(id)); //for picking
 		gl.glTranslated(locationx, locationy, locationz);
 		gl.glRotated(-theta, 0, 0, 1);
 		gl.glBegin(GL2.GL_LINE_STRIP);

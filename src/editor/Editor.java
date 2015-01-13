@@ -20,11 +20,11 @@ public class Editor {
 	// map location string ids to ints because opengl picking needs an int id
 	public Hashtable<String, Integer> locationIntIds;
 	public Hashtable<Integer, String> locationStringIds;
-	private int locationCounter = 0;
+	private int locationCounter = 0; // do not decrement, used to create unique ids
 	
 	public Hashtable<String, Integer> viewIntIds;
 	public Hashtable<Integer, String> viewStringIds;
-	private int viewCounter = 0;
+	private int viewCounter = 0; // do not decrement, used to create unique ids
 	
 	public enum MapSelection {
 		NONE,
@@ -47,6 +47,8 @@ public class Editor {
 		map = new GameMap();
 		locationIntIds = new Hashtable<String, Integer>();
 		locationStringIds = new Hashtable<Integer, String>();
+		viewIntIds = new Hashtable<String, Integer>();
+		viewStringIds = new Hashtable<Integer, String>();
 		toolsPalette = tools;
 		selection = MapSelection.NONE;
 		editMode = EditMode.EDIT_MAP;
@@ -83,20 +85,43 @@ public class Editor {
 				e.setColor(0, 1, 0);
 			else
 				e.setColor(1, 1, 1);
-			e.drawLocation(nextLocation);
+			e.drawLocation(nextLocation);			
 		}
+		
+		Iterator<View> viewIt = map.getAllViewsIterator();
+		
+		while(viewIt.hasNext()){
+			View nextView = viewIt.next();
+			if(selectedView != null && nextView.getIdentifier() == selectedView.getIdentifier())
+				e.setColor(0, 1, 0);
+			else
+				e.setColor(1, 1, 1);
+			e.drawView(nextView.getLocation(), nextView);
+		}
+		
 	}
 	
 	public void destroy(){
 		
 	}
 	
-	public void selectLocation(int id){
+	public void selectLocationOrView(int id){
 		if(id >= 0){
-			String sid = locationStringIds.get(id);
-			selectedLocation = map.getLocation(sid);
-			selection = MapSelection.LOCATION;
-			toolsPalette.setLocationSelected();
+			String sid;
+			if(locationStringIds.get(id) != null){ // id does belong to a location
+				sid = locationStringIds.get(id);
+				selectedLocation = map.getLocation(sid);
+				selectedView = null;
+				selection = MapSelection.LOCATION;
+				toolsPalette.setLocationSelected();				
+			}
+			else if(viewStringIds.get(id) != null){ // id does belong to a view
+				sid = viewStringIds.get(id);
+				selectedView = map.getAllViews().get(sid);
+				selectedLocation = selectedView.getLocation();
+				selection = MapSelection.VIEW;
+				toolsPalette.setViewSelected();
+			}
 		}
 	}
 	
@@ -107,9 +132,9 @@ public class Editor {
 	}
 	
 	public void createLocation(){
-		selectedLocation = new Location();
-		locationIntIds.put(selectedLocation.getIdentifier(), locationCounter);
-		locationStringIds.put(locationCounter, selectedLocation.getIdentifier());
+		selectedLocation = new Location(map);
+		locationIntIds.put(selectedLocation.getIdentifier(), locationCounter + viewCounter);
+		locationStringIds.put(locationCounter + viewCounter, selectedLocation.getIdentifier());
 		locationCounter++;
 		selectedLocation.setPosition(0, 0, 0);
 		map.addLocation(selectedLocation);
@@ -117,11 +142,11 @@ public class Editor {
 	}
 	
 	public void createView(){
-		selectedView = new View();
-		viewIntIds.put(selectedView.getIdentifier(), viewCounter + locationCounter);
+		selectedView = new View(selectedLocation);
+		viewIntIds.put(selectedView.getIdentifier(), locationCounter + viewCounter);
 		viewStringIds.put(locationCounter + viewCounter, selectedView.getIdentifier());
 		viewCounter++;
-		//TODO selectedLocation.addView(selectedView);
+		selectedLocation.addView(selectedView);
 		selection = MapSelection.VIEW;
 	}
 	
@@ -130,13 +155,16 @@ public class Editor {
 		map.removeLocation(id);
 		locationStringIds.remove(locationIntIds.get(id));
 		locationIntIds.remove(id);
-		locationCounter--;
 		selectedLocation = null;
 		selection = MapSelection.NONE;
 	}
 	
 	public void deleteView(){
-		
+		String id = selectedView.getIdentifier();
+		map.getAllViews().remove(selectedView);
+		selectedLocation.removeView(id);
+		selectedView = null;
+		selection = MapSelection.LOCATION;
 	}
 	
 	public void editView(){

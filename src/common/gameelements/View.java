@@ -20,26 +20,33 @@ public class View
 	/** This view's unique identifier */
 	private String identifier;
 	
+	/** The location that this view belongs to */
+	private Location location;
+	
 	/**
 	 * Constructor that specifies all fields
 	 * @param orientation The orientation of this view
 	 * @param identifier This view's unique identifier
+	 * @param location The location that this view belongs to
 	 */
 	public View(
 			Orientation orientation,
-			String identifier
+			String identifier,
+			Location location
 		) { // I listed the args like this as I envision more args being added later
 		this.orientation = orientation;
 		this.identifier = identifier;
+		this.location = location;
 	}
 	
 	/**
 	 * Default constructor. This will create a view with default values
 	 * that should be changed later by the level editor
+	 * @param location The location that this view belongs to. This is mandatory
 	 */
-	public View()
+	public View(Location location)
 	{
-		this(new Orientation(), "New View " + viewCounter);
+		this(new Orientation(), "New View " + viewCounter, location);
 		viewCounter++;
 	}
 	
@@ -106,4 +113,10 @@ public class View
 	 * @return the orientation object which can be used to get and set theta and phi
 	 */
 	public Orientation getOrientation(){ return orientation; }
+	
+	/**
+	 * Get the location that this view belongs to
+	 * @return the location that this view belongs to
+	 */
+	public Location getLocation(){ return location; }
 }

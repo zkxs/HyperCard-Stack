@@ -13,11 +13,13 @@ public class GameMap
 {
 	private Hashtable<String, Location> locations;
 	private Hashtable<String, PuzzleController> puzzleControllers;
+	private Hashtable<String, View> allViews;
 	
 	public GameMap()
 	{
 		locations = new Hashtable<String, Location>();
 		puzzleControllers = new Hashtable<String, PuzzleController>();
+		allViews = new Hashtable<String, View>();
 	}
 	
 	/**
@@ -107,5 +109,21 @@ public class GameMap
 			throw new PuzzleControllerNotFoundException(id);
 		else
 			return toReturn;
+	}
+	
+	/**
+	 * Get the table of all views from all locations
+	 * @return a Hashtable of all views from all locations
+	 */
+	public Hashtable<String, View> getAllViews(){
+		return allViews;
+	}
+	
+	/**
+	 * Get an iterator for the allViews Hashtable
+	 * @return an iterator for the allViews Hashtable
+	 */
+	public Iterator<View> getAllViewsIterator(){
+		return allViews.values().iterator();
 	}
 }

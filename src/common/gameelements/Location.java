@@ -20,36 +20,42 @@ public class Location
 	/** This view's unique identifier */
 	private String identifier;
 	private Vector position;
-	private Hashtable<String, View> views; //TODO: add functionality
+	private Hashtable<String, View> views;
+	
+	private GameMap map; // reference back to game map to access allViews
 	
 	/**
 	 * Standard constructor
 	 * @param identifier A unique identifier for this location
 	 * @param position the position of this Location (will be deep copied)
+	 * @param map a reference to the game map
 	 */
-	public Location(String identifier, Vector position)
+	public Location(String identifier, Vector position, GameMap map)
 	{
 		views = new Hashtable<String, View>();
 		this.identifier = identifier;
+		this.map = map;
 		position = new Vector(position);
 	}
 
 	/**
 	 * Create a new Location at <0, 0, 0>
 	 * @param identifier A unique identifier for this location
+	 * @param map a reference to the game map
 	 */
-	public Location(String identifier)
+	public Location(String identifier, GameMap map)
 	{
-		this(identifier, 0, 0, 0);
+		this(identifier, 0, 0, 0, map);
 	}
 	
 	/**
 	 * Default constructor. This will create a view with default values
 	 * that should be changed later by the level editor
+	 * @param map a reference to the game map
 	 */
-	public Location()
+	public Location(GameMap map)
 	{
-		this("New Location " + locationCounter);
+		this("New Location " + locationCounter, map);
 		locationCounter++;
 	}
 	
@@ -60,10 +66,11 @@ public class Location
 	 * @param y The y component
 	 * @param z The z component
 	 */
-	public Location(String identifier, float x, float y, float z)
+	public Location(String identifier, float x, float y, float z, GameMap map)
 	{
 		views = new Hashtable<String, View>();
 		this.identifier = identifier;
+		this.map = map;
 		position = new Vector(x, y, z);
 	}
 	
@@ -150,6 +157,7 @@ public class Location
 		{
 			// we must add the new view
 			views.put(view.getIdentifier(), view); // should always return null
+			map.getAllViews().put(view.getIdentifier(), view);
 		}
 	}
 	
@@ -162,7 +170,8 @@ public class Location
 	public void removeView(String id)
 	{
 		View removed = views.remove(id);
-		if (removed == null)
+		View globalRemoved = map.getAllViews().remove(id);
+		if (removed == null || globalRemoved == null)
 		{
 			// nothing was removed!
 			throw new ViewNotFoundException(id);
