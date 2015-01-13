@@ -1,0 +1,5 @@
+things to persist:
+	player state:
+		map, location, view
+	game state:
+		puzzlecontroller variables
