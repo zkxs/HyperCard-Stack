@@ -281,8 +281,8 @@ public class EditorEngine extends JFrame implements GLEventListener, MouseListen
 	 * @param vw the view to be draw
 	 */
 	public void drawView(Location loc, View vw){
-		float radius = 10f;
-		float half_width = 8f;
+		float radius = 12f;
+		float half_width = 4f;
 		double locationx = loc.getPosition().getX();
 		double locationy = loc.getPosition().getY();
 		double locationz = loc.getPosition().getZ();

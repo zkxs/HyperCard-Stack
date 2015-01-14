@@ -109,8 +109,8 @@ public class Editor {
 	}
 	
 	public void pickResult(int id){
-		if(aimingView){
-			
+		
+		if(aimingView || aimingViewFrom){
 			
 			if(locationStringIds.get(id) != null){ // id does belong to a location
 				String sid = locationStringIds.get(id);
@@ -125,18 +125,17 @@ public class Editor {
 				double dx = x2 - x;
 				double dy = y2 - y;
 				
+				//calculate the angle between the points in xy radians
+				//and convert xy coords to compass coords, and radians to degrees
 				double angle = -Math.atan2(dy, dx) * 180 / Math.PI + 90;
-				System.out.println(angle);
+				
+				if(aimingViewFrom)
+					angle += 180;
 				
 				selectedView.getOrientation().setTheta((float)angle);
 			}
-			else{
-//				JOptionPane.showMessageDialog(null, "Not a valid location");
-			}
 			
 			aimingView = false;
-		}
-		else if(aimingViewFrom){
 			aimingViewFrom = false;
 		}
 		else{
