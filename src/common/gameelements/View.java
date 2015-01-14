@@ -78,6 +78,11 @@ public class View
 		// should background images be a default thing?
 	}
 	
+	/**
+	 * Stores the orientation of a location. Theta is angle from North, increasing in the
+	 * clockwise direction. Think of a compass. Phi is the angle from horizontal, increasing
+	 * towards vertical. All angles are stored in degrees.
+	 */
 	public static class Orientation
 	{
 		private float theta;
@@ -99,13 +104,24 @@ public class View
 		 * Set the angle from North of this Orientation
 		 * @param theta the angle from North of this Orientation
 		 */
-		public void setTheta(float theta) { this.theta = theta; }
+		public void setTheta(float theta) {this.theta = fixAngleRange(theta); }
 		
 		/**
 		 * Set the angle from horizontal of this Orientation
 		 * @param phi the angle from horizontal of this Orientation
 		 */
-		public void setPhi(float phi) { this.phi = phi; }
+		public void setPhi(float phi) { this.phi = fixAngleRange(phi); }
+		
+		/**
+		 * Take an angle with magnitude greater than 360° and return an identical
+		 * angle with magnitude less than 360°
+		 * @param angle the angle to adjust
+		 * @return the adjusted angle
+		 */
+		private static float fixAngleRange(float angle)
+		{
+			return angle % 360;
+		}
 	}
 	
 	/**
