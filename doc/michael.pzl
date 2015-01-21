@@ -1,0 +1,37 @@
+puzzle DoorPuzzle {
+	
+	// levers have two states, pulled and unpulled
+	lever Lever1 {
+		boolean greased = false;
+		
+		onPull() {
+			if (greased) {
+				playSound("lever1.wav");
+				setState(lever.pulled);
+			} else {
+				playSound("lever1_stuck.wav");
+			}
+		}
+		
+		onUnpull() {
+			playSound("lever1.wav");
+			setState(lever.unpulled);
+		}
+		
+		draw() {
+			switch {
+				pulled:   drawImage("lever1_down.png");
+				unpulled: drawImage("lever1_up.png");
+			}
+		}
+	}
+	
+	indicator Door1 {
+		draw() {
+			switch (Lever1) {
+				pulled:   drawImage("door1_closed.png");
+				unpulled: drawImage("door1_open.png");
+			}
+		}
+	}
+}
