@@ -3,6 +3,7 @@ package editor;
 import javax.media.opengl.GL2;
 import javax.swing.JOptionPane;
 
+import java.awt.image.BufferedImage;
 import java.util.Hashtable;
 import java.util.Iterator;
 
@@ -214,6 +215,10 @@ public class Editor {
 	
 	public void aimViewFromLocation(){
 		aimingViewFrom = true;
+	}
+	
+	public void setViewImage(BufferedImage image){
+		
 	}
 	
 	public float getX(){

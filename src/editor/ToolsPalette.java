@@ -3,11 +3,16 @@ package editor;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -15,7 +20,7 @@ import javax.swing.JTextField;
 
 @SuppressWarnings("serial")
 public class ToolsPalette extends JPanel implements ActionListener{
-	private JButton createView, deleteView, editView;
+	private JButton createView, deleteView, editView, setImage;
 	private JButton createLocation, deleteLocation;
 	private JButton aimView, aimViewFrom;
 	private JButton setX, setY, setZ;
@@ -40,6 +45,8 @@ public class ToolsPalette extends JPanel implements ActionListener{
 		buttons.add(deleteView);
 		editView = new JButton("Edit View");
 		buttons.add(editView);
+		setImage = new JButton("Set Image");
+		buttons.add(setImage);
 		
 		createLocation = new JButton("Create Location");
 		buttons.add(createLocation);
@@ -116,6 +123,9 @@ public class ToolsPalette extends JPanel implements ActionListener{
 	 * view selected, show buttons:
 	 * 	-delete view
 	 * 	-edit view
+	 * 	-aim view
+	 * 	-aim view from
+	 * 	-set image
 	 */
 	public void setViewSelected(){
 		removeAll();
@@ -123,6 +133,7 @@ public class ToolsPalette extends JPanel implements ActionListener{
 		add(editView);
 		add(aimView);
 		add(aimViewFrom);
+		add(setImage);
 		
 		revalidate();
 		repaint();
@@ -160,6 +171,20 @@ public class ToolsPalette extends JPanel implements ActionListener{
 		}
 		else if(source == aimViewFrom){
 			editor.aimViewFromLocation();
+		}
+		else if(source == setImage){
+			JFileChooser fc = new JFileChooser();
+			int returnVal = fc.showOpenDialog(this);
+
+	        if (returnVal == JFileChooser.APPROVE_OPTION) {
+	            File file = fc.getSelectedFile();
+	            try {
+					BufferedImage image = ImageIO.read(file);
+					editor.setViewImage(image);
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+	        }
 		}
 	}
 }
